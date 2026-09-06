@@ -783,7 +783,7 @@ export default function Drawdown() {
           <div className="cardline">
             Printed Gray Balance Card — a pocket reference for the press.{" "}
             {CARD_URL ? (
-              <a href={CARD_URL} target="_blank" rel="noreferrer">Buy now</a>
+              <a href={CARD_URL} target="_blank" rel="https://drawdownpress.lemonsqueezy.com/checkout/buy/c9b87e55-b81c-4180-b3ba-28883f76f422">Buy now</a>
             ) : (
               <a href={`mailto:${CONTACT}?subject=${encodeURIComponent("Gray Balance Card order")}&body=${encodeURIComponent("I'd like to order the Drawdown Gray Balance Card.\n\nQuantity:\nName:\nShipping address:\n\n(I'll reply with payment details.)")}`}>Buy now</a>
             )}
