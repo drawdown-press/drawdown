@@ -182,7 +182,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
 const VERSION = "0.9.6"; // bumped with every release; shown in the footer
