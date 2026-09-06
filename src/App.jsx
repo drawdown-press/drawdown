@@ -185,10 +185,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.6"; // bumped with every release; shown in the footer
+const VERSION = "0.9.7"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
-const CARD_URL = "https://drawdownpress.lemonsqueezy.com/checkout/buy/c9b87e55-b81c-4180-b3ba-28883f76f422"; // paste the card's store URL when it exists; empty opens a pre-order email
+const CARD_URL = ""; // paste the card's store URL when it exists; empty opens a pre-order email
 
 const PROFILES = [
   { id: "gracol-c", name: "GRACoL 2013 — Coated", gain: 0.14, tac: 320 },
@@ -527,7 +527,33 @@ export default function Drawdown() {
         .ver { margin-top: 10px; font-size: 11.5px; color: #9A968C; }
         .cardline { margin-top: 10px; font-size: 12.5px; color: #666; }
         .cardline a { color: #000; font-weight: 600; }
-        @media (max-width: 480px) { .deval { font-size: 42px; } .patches { height: 120px; } }
+        @media (max-width: 540px) {
+          .wrap { padding: 18px 12px 48px; }
+          .mast { flex-direction: column; align-items: flex-start; gap: 12px; }
+          .mark { font-size: 24px; }
+          .tag { font-size: 13px; }
+          .deval { font-size: 40px; }
+          .patches { height: 110px; }
+          .verdict { font-size: 15px; }
+          .corrtitle { font-size: 18px; }
+          .phead { flex-wrap: wrap; gap: 8px; }
+          /* slider rows: give the number box less room, keep the track from overflowing */
+          .chrow { grid-template-columns: 30px 1fr 52px; gap: 8px; }
+          .chchip { width: 30px; }
+          .numin { width: 52px; font-size: 14px; padding: 5px 4px; }
+          /* correction chips: full flex wrap, each sized to content, consistent rows */
+          .moves { gap: 8px; }
+          .move { font-size: 15px; padding: 8px 10px; flex: 1 1 calc(50% - 8px); justify-content: center; }
+          /* target/material Lab grid stays 3-up but tighter */
+          .labgrid { gap: 8px; }
+          .patchlbls { font-size: 11px; }
+          .patchlbls .mono { font-size: 10px; }
+          .about ol, .aboutp, .about li { max-width: 100%; }
+        }
+        @media (max-width: 360px) {
+          .move { flex-basis: 100%; }
+          .deval { font-size: 34px; }
+        }
       `}</style>
 
       <div className="inner">
@@ -783,7 +809,7 @@ export default function Drawdown() {
           <div className="cardline">
             Printed Gray Balance Card — a pocket reference for the press.{" "}
             {CARD_URL ? (
-              <a href={CARD_URL} target="_blank" rel="https://drawdownpress.lemonsqueezy.com/checkout/buy/c9b87e55-b81c-4180-b3ba-28883f76f422">Buy now</a>
+              <a href={CARD_URL} target="_blank" rel="noreferrer">Buy now</a>
             ) : (
               <a href={`mailto:${CONTACT}?subject=${encodeURIComponent("Gray Balance Card order")}&body=${encodeURIComponent("I'd like to order the Drawdown Gray Balance Card.\n\nQuantity:\nName:\nShipping address:\n\n(I'll reply with payment details.)")}`}>Buy now</a>
             )}
