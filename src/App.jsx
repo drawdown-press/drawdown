@@ -188,7 +188,7 @@ const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both
 const VERSION = "0.9.6"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
-const CARD_URL = ""; // paste the card's store URL when it exists; empty opens a pre-order email
+const CARD_URL = "https://drawdownpress.lemonsqueezy.com/checkout/buy/c9b87e55-b81c-4180-b3ba-28883f76f422"; // paste the card's store URL when it exists; empty opens a pre-order email
 
 const PROFILES = [
   { id: "gracol-c", name: "GRACoL 2013 — Coated", gain: 0.14, tac: 320 },
