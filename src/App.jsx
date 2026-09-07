@@ -185,10 +185,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.7"; // bumped with every release; shown in the footer
+const VERSION = "0.9.9"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
-const CARD_URL = ""; // paste the card's store URL when it exists; empty opens a pre-order email
+const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
 
 const PROFILES = [
   { id: "gracol-c", name: "GRACoL 2013 — Coated", gain: 0.14, tac: 320 },
@@ -300,11 +300,10 @@ function About() {
         whole crew under one subscription and stamps your shop's name on every job ticket.
       </p>
       <p className="aboutp">
-        Pro is <strong>$9/month</strong> or <strong>$79/year</strong> — the annual plan works out to
-        under $7 a month and includes a printed Gray Balance Card, mailed to you. One avoided
-        make-ready pays for the year. Extra cards, and the 3-pack, are available online whether or not
-        you subscribe. Questions, gripes, early access:{" "}
-        <a href={`mailto:${CONTACT}`}>{CONTACT}</a>.
+        Pro is <strong>$8.99/month</strong> or <strong>$79/year</strong> — the annual plan works out
+        to under $7 a month, about the cost of one avoided make-ready. The printed Gray Balance Card
+        is sold separately, on its own or as a 3-pack, whether or not you subscribe. Questions,
+        gripes, early access: <a href={`mailto:${CONTACT}`}>{CONTACT}</a>.
       </p>
     </div>
   );
@@ -809,7 +808,7 @@ export default function Drawdown() {
           <div className="cardline">
             Printed Gray Balance Card — a pocket reference for the press.{" "}
             {CARD_URL ? (
-              <a href={CARD_URL} target="_blank" rel="noreferrer">Buy now</a>
+              <a href={CARD_URL} target="_blank" rel="noreferrer">Order cards</a>
             ) : (
               <a href={`mailto:${CONTACT}?subject=${encodeURIComponent("Gray Balance Card order")}&body=${encodeURIComponent("I'd like to order the Drawdown Gray Balance Card.\n\nQuantity:\nName:\nShipping address:\n\n(I'll reply with payment details.)")}`}>Buy now</a>
             )}
