@@ -185,7 +185,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.10"; // bumped with every release; shown in the footer
+const VERSION = "0.9.11"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -235,7 +235,7 @@ function About() {
       <ol>
         <li>Pick your printing condition at the top right — coated or uncoated stock in the free version, a real press profile in Pro.</li>
         <li>In <strong>Target</strong>, enter the CMYK build you're chasing. In Pro you can switch to Lab and type numbers straight off a spectro or a chip's published values.</li>
-        <li>In <strong>On press</strong>, enter the build that's running right now.</li>
+        <li>In <strong>On press/printer</strong>, enter the build that's running right now.</li>
         <li>In <strong>Material</strong>, tell it what's under the ink: tap a preset, describe the stock's cast in CMYK, or (Pro) type the spectro reading of the unprinted material. Inks are transparent — the stock shifts every color on it, so this matters more than it looks.</li>
         <li>Read <strong>The correction</strong>, make the moves, run it, punch in the new numbers, repeat until it passes.</li>
       </ol>
@@ -426,7 +426,7 @@ export default function Drawdown() {
       `DRAWDOWN CORRECTION — ${isPro ? activeProfile.name : `generic ${stock}`}`,
       ...(TIER === "shop" && SHOP_NAME ? [`Shop: ${SHOP_NAME}`] : []),
       `Target: ${targetMode === "cmyk" ? targetCmyk.join("/") + "  " : ""}${fmt(out.tLab)}`,
-      `On press: ${current.join("/")}  ${fmt(out.cLab)}  ΔE00 ${out.dE.toFixed(1)}`,
+      `On press/printer: ${current.join("/")}  ${fmt(out.cLab)}  ΔE00 ${out.dE.toFixed(1)}`,
       `Moves: ${CHANNELS.map((c, i) => `${c.key} ${out.rec[i] > 0 ? "+" : ""}${out.rec[i]}`).join(" · ")}`,
       `New build: ${out.applied.join("/")}  predicted ΔE00 ${out.dEafter.toFixed(1)}`,
       `Material: ${fmt(materialLab)}`,
@@ -619,7 +619,7 @@ export default function Drawdown() {
           </div>
           <div className="patchlbls">
             <span>Target &nbsp;<span className="mono">L {out.tLab[0].toFixed(1)} · a {out.tLab[1].toFixed(1)} · b {out.tLab[2].toFixed(1)}</span></span>
-            <span>On press &nbsp;<span className="mono">L {out.cLab[0].toFixed(1)} · a {out.cLab[1].toFixed(1)} · b {out.cLab[2].toFixed(1)}</span></span>
+            <span>On press/printer &nbsp;<span className="mono">L {out.cLab[0].toFixed(1)} · a {out.cLab[1].toFixed(1)} · b {out.cLab[2].toFixed(1)}</span></span>
           </div>
           <div className="de">
             <div>
@@ -682,7 +682,7 @@ export default function Drawdown() {
         <section className="panel">
           <div className="phead">
             <div>
-              <div className="ptitle">On press</div>
+              <div className="ptitle">On press/printer</div>
               <div className="psub">The build that's running now</div>
             </div>
           </div>
