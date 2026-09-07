@@ -185,7 +185,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.9"; // bumped with every release; shown in the footer
+const VERSION = "0.9.10"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -469,6 +469,8 @@ export default function Drawdown() {
         .about li { font-size: 14.5px; line-height: 1.6; margin-bottom: 7px; }
         .propill { font-size: 11px; font-weight: 700; background: #000; color: #fff; padding: 2px 7px; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
         .tag { font-size: 14px; color: #444; margin-top: 2px; }
+        .firsttime { font-size: 13px; color: #555; margin-top: 8px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 8px 11px; max-width: 560px; }
+        .ftlink { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; background: none; border: 0; padding: 0; cursor: pointer; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .seg { display: inline-flex; border: 1.5px solid #000; border-radius: 3px; overflow: hidden; }
         .seg button { font-family: 'Archivo'; font-weight: 600; font-size: 13px; padding: 7px 14px; background: #fff; border: 0; cursor: pointer; }
         .seg button.on { background: #000; color: #fff; }
@@ -579,6 +581,12 @@ export default function Drawdown() {
               </button>
             </div>
             <div className="tag">Two colors in, ink moves out. Tell it what's printing — it tells you what to move.</div>
+            {page === "app" && (
+              <div className="firsttime">
+                First time? Enter your target and what's on press/printer — Drawdown tells you what to move.{" "}
+                <button className="ftlink" onClick={() => setPage("about")}>Full walkthrough →</button>
+              </div>
+            )}
           </div>
           {isPro ? (
             <select
