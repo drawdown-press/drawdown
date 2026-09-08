@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.18"; // bumped with every release; shown in the footer
+const VERSION = "0.9.19"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -304,6 +304,26 @@ function About() {
         tolerance ladder and the total-ink limits for each profile, so the thresholds are in your hand
         when the app isn't. It's the physical version of what Drawdown does on screen. There's a link
         to order one at the bottom of the page.
+      </p>
+
+      <h3 className="abouth">Why "Drawdown"?</h3>
+      <p className="aboutp">
+        A drawdown is the oldest color-proofing trick in the shop. You drop a bead of ink on your
+        stock, lay a smooth blade at the top, and <em>pull it down</em> in one clean stroke — spreading
+        a thin, even film so you can see the ink's real color before you ever start the run. Real ink,
+        real substrate, no guessing.
+      </p>
+      <p className="aboutp">
+        Printers have been doing it by hand for well over a century — the technique goes back to the
+        letterpress and lithography shops of the 1800s, and pressmen still pull them today for the same
+        reason: a screen lies, but a drawdown tells the truth. It's fast, it's cheap, and it settles
+        the argument.
+      </p>
+      <p className="aboutp">
+        This app does the same job with the math done for you. Instead of pulling ink to <em>see</em> how
+        far off you are, you enter the numbers and Drawdown tells you exactly which inks to move to close
+        the gap. Same spirit — know the color's right before you commit the sheet — just quicker, and
+        without the mess.
       </p>
 
       <h3 className="abouth">Free and Pro</h3>
