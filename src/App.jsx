@@ -8,14 +8,10 @@ const dotGain = (a, gain) => clamp(a + gain * 4 * a * (1 - a), 0, 1);
 
 // Demo transform: CMYK (0..1) -> linear RGB via subtractive model + dot gain.
 // Production: replace with real ICC profile (GRACoL / SWOP / press profile) via lcms-wasm.
-function cmykToLinRgb([c, m, y, k], gain, paper) {
+function cmykToLinRgb([c, m, y, k], gain) {
   const c1 = dotGain(c, gain), m1 = dotGain(m, gain),
         y1 = dotGain(y, gain), k1 = dotGain(k, gain);
-  return [
-    paper[0] * (1 - c1) * (1 - k1),
-    paper[1] * (1 - m1) * (1 - k1),
-    paper[2] * (1 - y1) * (1 - k1),
-  ];
+  return [(1 - c1) * (1 - k1), (1 - m1) * (1 - k1), (1 - y1) * (1 - k1)];
 }
 
 const WP = [0.95047, 1.0, 1.08883];
@@ -69,9 +65,19 @@ function cmykToLabLut(lut, cmyk, matLab) {
   ]);
 }
 
+function cmykToLabGeneric(cmyk, gain, matLab) {
+  const xyz = linToXyz(cmykToLinRgb(cmyk, gain)); // ink on perfect white
+  const mw = labToXyz(matLab);
+  return xyzToLab([
+    (xyz[0] * mw[0]) / WP[0],
+    (xyz[1] * mw[1]) / WP[1],
+    (xyz[2] * mw[2]) / WP[2],
+  ]);
+}
+
 const cmykToLab = (cmyk, gain, paper, lut, matLab) =>
   lut ? cmykToLabLut(lut, cmyk, matLab)
-      : xyzToLab(linToXyz(cmykToLinRgb(cmyk, gain, paper)));
+      : cmykToLabGeneric(cmyk, gain, matLab);
 
 function labToLin([L, a, b]) {
   const fy = (L + 16) / 116, fx = fy + a / 500, fz = fy - b / 200;
@@ -185,7 +191,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.11"; // bumped with every release; shown in the footer
+const VERSION = "0.9.12"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -319,21 +325,21 @@ function WarnIcon() {
   );
 }
 
-function ChannelRow({ ch, value, onChange }) {
+function ChannelRow({ ch, value, onChange, max = 100 }) {
   const c = CHANNELS[ch];
   return (
     <div className="chrow">
       <span className="chchip" style={{ background: c.color, color: c.text }}>{c.key}</span>
       <input
-        type="range" min={0} max={100} step={1} value={value}
+        type="range" min={0} max={max} step={1} value={value}
         style={{ accentColor: c.color }}
         aria-label={`${c.name} percent`}
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <input
-        className="numin" type="number" min={0} max={100} value={value}
+        className="numin" type="number" min={0} max={max} value={value}
         aria-label={`${c.name} value`}
-        onChange={(e) => onChange(clamp(Number(e.target.value) || 0, 0, 100))}
+        onChange={(e) => onChange(clamp(Number(e.target.value) || 0, 0, max))}
       />
     </div>
   );
@@ -713,9 +719,9 @@ export default function Drawdown() {
           </div>
           {matMode === "cmyk" ? (
             <>
-              <div className="labnote">No spectro? Describe the stock's cast as a light tint on perfect white — a touch of Y for warm stock, a touch of K for grey.</div>
+              <div className="labnote">No spectro? Describe the stock's cast as a light tint — a touch of Y for warm stock, a point or two of K for grey. (Real substrates only need a few percent, so these run 0–15.)</div>
               {CHANNELS.map((c, i) => (
-                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} />
+                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} />
               ))}
             </>
           ) : (
