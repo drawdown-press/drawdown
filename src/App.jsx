@@ -196,10 +196,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.15"; // bumped with every release; shown in the footer
+const VERSION = "0.9.16"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -535,6 +535,8 @@ export default function Drawdown() {
         .pressbuild { display: flex; align-items: center; gap: 8px; margin: 4px 0 12px; flex-wrap: wrap; }
         .pressbuildlbl { font-size: 13px; font-weight: 600; color: #555; }
         .numin.sm { width: 52px; }
+        .buildfield { display: inline-flex; align-items: center; gap: 4px; }
+        .buildkey { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13px; color: #333; }
         .pronote { font-size: 12.5px; color: #555; margin: 6px 0 10px; }
         .corr { margin-top: 26px; }
         .corrtitle { font-weight: 800; font-size: 20px; }
@@ -745,11 +747,14 @@ export default function Drawdown() {
                 ))}
               </div>
               <div className="pressbuild">
-                <span className="pressbuildlbl">Build running: CMYK=</span>
+                <span className="pressbuildlbl">Build running:</span>
                 {CHANNELS.map((c, i) => (
-                  <input key={c.key} className="numin sm" type="number" min={0} max={100}
-                    value={current[i]} aria-label={`${c.name} build`}
-                    onChange={(e) => setC(i, clamp(Number(e.target.value) || 0, 0, 100))} />
+                  <span key={c.key} className="buildfield">
+                    <span className="buildkey">{c.key}=</span>
+                    <input className="numin sm" type="number" min={0} max={100}
+                      value={current[i]} aria-label={`${c.name} build`}
+                      onChange={(e) => setC(i, clamp(Number(e.target.value) || 0, 0, 100))} />
+                  </span>
                 ))}
               </div>
             </>
