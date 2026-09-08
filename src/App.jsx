@@ -153,10 +153,18 @@ function solve4(A, b) {
 // Gauss–Newton with ridge damping: find the CMYK that lands on targetLab,
 // starting from the current run. The probe step is the "how does each ink
 // move the color from where I'm standing" part.
-function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
+function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredLab) {
   let x = [...current];
+  // If the press color was measured (not predicted), compute the offset between
+  // what the model thinks this build makes and what was actually measured, and
+  // carry it through the solve so corrections target the real sheet, not the model.
+  const predicted = cmykToLab(current, gain, paper, lut, matLab);
+  const offset = measuredLab
+    ? [measuredLab[0] - predicted[0], measuredLab[1] - predicted[1], measuredLab[2] - predicted[2]]
+    : [0, 0, 0];
   for (let iter = 0; iter < 12; iter++) {
-    const base = cmykToLab(x, gain, paper, lut, matLab);
+    const raw = cmykToLab(x, gain, paper, lut, matLab);
+    const base = [raw[0] + offset[0], raw[1] + offset[1], raw[2] + offset[2]];
     const r = [targetLab[0] - base[0], targetLab[1] - base[1], targetLab[2] - base[2]];
     if (Math.hypot(...r) < 0.05) break;
     const eps = 0.004;
@@ -188,10 +196,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.13"; // bumped with every release; shown in the footer
+const VERSION = "0.9.15"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -365,6 +373,8 @@ export default function Drawdown() {
   const [targetCmyk, setTargetCmyk] = useState([100, 55, 0, 18]);
   const [targetLabIn, setTargetLabIn] = useState([28, 18, -58]);
   const [current, setCurrent] = useState([90, 45, 8, 15]);
+  const [pressMode, setPressMode] = useState("cmyk");
+  const [pressLabIn, setPressLabIn] = useState([44, 46, -49]);
   const [material, setMaterial] = useState([95, 1, -2]);
   const [matMode, setMatMode] = useState("lab");
   const [matCmyk, setMatCmyk] = useState([0, 0, 4, 2]);
@@ -388,13 +398,21 @@ export default function Drawdown() {
     const tLab = targetMode === "cmyk"
       ? cmykToLab(targetCmyk.map((v) => v / 100), gain, paper, activeLut, [100, 0, 0])
       : [...targetLabIn];
-    const cLab = cmykToLab(cur01, gain, paper, activeLut, materialLab);
+    const cLab = pressMode === "lab"
+      ? [...pressLabIn]
+      : cmykToLab(cur01, gain, paper, activeLut, materialLab);
     const dE = deltaE00(tLab, cLab);
 
-    const solved = solveCorrection(cur01, tLab, gain, paper, activeLut, materialLab);
+    const solved = solveCorrection(cur01, tLab, gain, paper, activeLut, materialLab, cLab);
     const rec = solved.map((v, i) => Math.round(v * 100) - current[i]);
     const applied = current.map((v, i) => clamp(v + rec[i], 0, 100));
-    const dEafter = deltaE00(tLab, cmykToLab(applied.map((v) => v / 100), gain, paper, activeLut, materialLab));
+    const predictedApplied = cmykToLab(applied.map((v) => v / 100), gain, paper, activeLut, materialLab);
+    const measOffset = pressMode === "lab"
+      ? [cLab[0] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[0],
+         cLab[1] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[1],
+         cLab[2] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[2]]
+      : [0, 0, 0];
+    const dEafter = deltaE00(tLab, [predictedApplied[0] + measOffset[0], predictedApplied[1] + measOffset[1], predictedApplied[2] + measOffset[2]]);
 
     // plain-language read of the drift
     const dL = tLab[0] - cLab[0], da = tLab[1] - cLab[1], db = tLab[2] - cLab[2];
@@ -407,7 +425,7 @@ export default function Drawdown() {
     if (db < -1.5) drift.push("too yellow");
 
     return { tLab, cLab, dE, rec, applied, dEafter, drift };
-  }, [current, targetCmyk, targetLabIn, targetMode, gain, materialLab, activeLut]);
+  }, [current, targetCmyk, targetLabIn, targetMode, gain, materialLab, activeLut, pressMode, pressLabIn]);
 
   const verdict = isPro
     ? (out.dE <= 1 ? "Dead match. Leave it alone."
@@ -446,6 +464,7 @@ export default function Drawdown() {
 
   const setT = (i, v) => setTargetCmyk(targetCmyk.map((x, j) => (j === i ? v : x)));
   const setC = (i, v) => setCurrent(current.map((x, j) => (j === i ? v : x)));
+  const setPL = (i, v) => setPressLabIn(pressLabIn.map((x, j) => (j === i ? v : x)));
   const setL = (i, v) => setTargetLabIn(targetLabIn.map((x, j) => (j === i ? v : x)));
   const setM = (i, v) => setMaterial(material.map((x, j) => (j === i ? v : x)));
   const setMc = (i, v) => setMatCmyk(matCmyk.map((x, j) => (j === i ? v : x)));
@@ -513,6 +532,9 @@ export default function Drawdown() {
         .stockframe { padding: 12px; border-radius: 4px; border: 1px solid #DDD9CF; }
         .profsel { font-family: 'Archivo'; font-weight: 600; font-size: 13px; padding: 8px 10px; border: 1.5px solid #000; border-radius: 3px; background: #fff; max-width: 240px; }
         .numin:disabled { opacity: 0.4; background: #F1EFE9; cursor: not-allowed; }
+        .pressbuild { display: flex; align-items: center; gap: 8px; margin: 4px 0 12px; flex-wrap: wrap; }
+        .pressbuildlbl { font-size: 13px; font-weight: 600; color: #555; }
+        .numin.sm { width: 52px; }
         .pronote { font-size: 12.5px; color: #555; margin: 6px 0 10px; }
         .corr { margin-top: 26px; }
         .corrtitle { font-weight: 800; font-size: 20px; }
@@ -690,12 +712,48 @@ export default function Drawdown() {
           <div className="phead">
             <div>
               <div className="ptitle">On press/printer</div>
-              <div className="psub">The build that's running now</div>
+              <div className="psub">{pressMode === "lab" ? "Measure the sheet, enter the reading" : "The build that's running now"}</div>
+            </div>
+            <div className="miniseg" role="group" aria-label="On press input mode">
+              <button className={pressMode === "cmyk" ? "on" : ""} onClick={() => setPressMode("cmyk")}>CMYK</button>
+              <button className={pressMode === "lab" ? "on" : ""} onClick={() => isPro && setPressMode("lab")}>{!isPro ? "Lab · Pro" : "Lab"}</button>
             </div>
           </div>
-          {CHANNELS.map((c, i) => (
-            <ChannelRow key={c.key} ch={i} value={current[i]} onChange={(v) => setC(i, v)} />
-          ))}
+          {pressMode === "cmyk" ? (
+            <>
+              {CHANNELS.map((c, i) => (
+                <ChannelRow key={c.key} ch={i} value={current[i]} onChange={(v) => setC(i, v)} />
+              ))}
+              {isPro && (
+                <div className="labnote">Tip: measure the printed sheet and switch to Lab for a measurement-accurate correction.</div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="labnote">Enter the i1/spectro reading of the printed sheet. The build below is what the correction adjusts from — keep it set to what you're actually running.</div>
+              <div className="labgrid">
+                {["L", "a", "b"].map((n, i) => (
+                  <div key={n}>
+                    <label htmlFor={`press-${n}`}>{n}</label>
+                    <input
+                      id={`press-${n}`} className="numin" type="number" step="0.1"
+                      min={i === 0 ? 0 : -128} max={i === 0 ? 100 : 127}
+                      value={pressLabIn[i]}
+                      onChange={(e) => setPL(i, Number(e.target.value) || 0)}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="pressbuild">
+                <span className="pressbuildlbl">Build running:</span>
+                {CHANNELS.map((c, i) => (
+                  <input key={c.key} className="numin sm" type="number" min={0} max={100}
+                    value={current[i]} aria-label={`${c.name} build`}
+                    onChange={(e) => setC(i, clamp(Number(e.target.value) || 0, 0, 100))} />
+                ))}
+              </div>
+            </>
+          )}
         </section>
 
         <section className="panel">
@@ -705,7 +763,7 @@ export default function Drawdown() {
               <div className="psub">The white under the ink — spectro the unprinted stock, or describe its cast</div>
             </div>
             <div className="miniseg" role="group" aria-label="Material input mode">
-              <button className={matMode === "cmyk" ? "on" : ""} onClick={() => setMatMode("cmyk")}>{!isPro ? "CMYK · Pro" : "CMYK"}</button>
+              <button className={matMode === "cmyk" ? "on" : ""} onClick={() => setMatMode("cmyk")}>CMYK</button>
               <button className={matMode === "lab" ? "on" : ""} onClick={() => setMatMode("lab")}>{!isPro ? "Lab · Pro" : "Lab"}</button>
             </div>
           </div>
@@ -722,11 +780,8 @@ export default function Drawdown() {
             <>
               <div className="labnote">Describe the stock's cast as a light tint — a touch of Y for warm stock, a point or two of K for grey. (Real substrates only need a few percent, so these run 0–15.)</div>
               {CHANNELS.map((c, i) => (
-                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} disabled={!isPro} />
+                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} />
               ))}
-              {!isPro && (
-                <div className="pronote">Describing your own material is a Pro feature — the presets above are free.</div>
-              )}
             </>
           ) : (
             <>
