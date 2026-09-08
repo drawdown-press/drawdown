@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.16"; // bumped with every release; shown in the footer
+const VERSION = "0.9.17"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -398,7 +398,7 @@ export default function Drawdown() {
     const tLab = targetMode === "cmyk"
       ? cmykToLab(targetCmyk.map((v) => v / 100), gain, paper, activeLut, [100, 0, 0])
       : [...targetLabIn];
-    const cLab = pressMode === "lab"
+    const cLab = (pressMode === "lab" && isPro)
       ? [...pressLabIn]
       : cmykToLab(cur01, gain, paper, activeLut, materialLab);
     const dE = deltaE00(tLab, cLab);
@@ -407,7 +407,7 @@ export default function Drawdown() {
     const rec = solved.map((v, i) => Math.round(v * 100) - current[i]);
     const applied = current.map((v, i) => clamp(v + rec[i], 0, 100));
     const predictedApplied = cmykToLab(applied.map((v) => v / 100), gain, paper, activeLut, materialLab);
-    const measOffset = pressMode === "lab"
+    const measOffset = (pressMode === "lab" && isPro)
       ? [cLab[0] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[0],
          cLab[1] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[1],
          cLab[2] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[2]]
@@ -718,7 +718,7 @@ export default function Drawdown() {
             </div>
             <div className="miniseg" role="group" aria-label="On press input mode">
               <button className={pressMode === "cmyk" ? "on" : ""} onClick={() => setPressMode("cmyk")}>CMYK</button>
-              <button className={pressMode === "lab" ? "on" : ""} onClick={() => isPro && setPressMode("lab")}>{!isPro ? "Lab · Pro" : "Lab"}</button>
+              <button className={pressMode === "lab" ? "on" : ""} onClick={() => setPressMode("lab")}>{!isPro ? "Lab · Pro" : "Lab"}</button>
             </div>
           </div>
           {pressMode === "cmyk" ? (
@@ -741,6 +741,7 @@ export default function Drawdown() {
                       id={`press-${n}`} className="numin" type="number" step="0.1"
                       min={i === 0 ? 0 : -128} max={i === 0 ? 100 : 127}
                       value={pressLabIn[i]}
+                      disabled={!isPro}
                       onChange={(e) => setPL(i, Number(e.target.value) || 0)}
                     />
                   </div>
@@ -753,10 +754,14 @@ export default function Drawdown() {
                     <span className="buildkey">{c.key}=</span>
                     <input className="numin sm" type="number" min={0} max={100}
                       value={current[i]} aria-label={`${c.name} build`}
+                      disabled={!isPro}
                       onChange={(e) => setC(i, clamp(Number(e.target.value) || 0, 0, 100))} />
                   </span>
                 ))}
               </div>
+              {!isPro && (
+                <div className="pronote">Measuring the printed sheet with a spectro is a Pro feature — free works from the CMYK build above.</div>
+              )}
             </>
           )}
         </section>
