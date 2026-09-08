@@ -188,10 +188,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab) {
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.12"; // bumped with every release; shown in the footer
+const VERSION = "0.9.13"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -325,19 +325,19 @@ function WarnIcon() {
   );
 }
 
-function ChannelRow({ ch, value, onChange, max = 100 }) {
+function ChannelRow({ ch, value, onChange, max = 100, disabled = false }) {
   const c = CHANNELS[ch];
   return (
     <div className="chrow">
       <span className="chchip" style={{ background: c.color, color: c.text }}>{c.key}</span>
       <input
-        type="range" min={0} max={max} step={1} value={value}
+        type="range" min={0} max={max} step={1} value={value} disabled={disabled}
         style={{ accentColor: c.color }}
         aria-label={`${c.name} percent`}
         onChange={(e) => onChange(Number(e.target.value))}
       />
       <input
-        className="numin" type="number" min={0} max={max} value={value}
+        className="numin" type="number" min={0} max={max} value={value} disabled={disabled}
         aria-label={`${c.name} value`}
         onChange={(e) => onChange(clamp(Number(e.target.value) || 0, 0, max))}
       />
@@ -378,7 +378,7 @@ export default function Drawdown() {
   const activeLut = isPro ? luts[profileId] : undefined;
 
   const materialLab = useMemo(
-    () => (matMode === "cmyk" ? cmykToLab(matCmyk.map((v) => v / 100), 0, [1, 1, 1]) : material),
+    () => (matMode === "cmyk" ? cmykToLab(matCmyk.map((v) => v / 100), 0, null, null, [100, 0, 0]) : material),
     [matMode, matCmyk, material]
   );
 
@@ -386,7 +386,7 @@ export default function Drawdown() {
     const paper = labToLin(materialLab);
     const cur01 = current.map((v) => v / 100);
     const tLab = targetMode === "cmyk"
-      ? cmykToLab(targetCmyk.map((v) => v / 100), gain, paper, activeLut, materialLab)
+      ? cmykToLab(targetCmyk.map((v) => v / 100), gain, paper, activeLut, [100, 0, 0])
       : [...targetLabIn];
     const cLab = cmykToLab(cur01, gain, paper, activeLut, materialLab);
     const dE = deltaE00(tLab, cLab);
@@ -498,6 +498,7 @@ export default function Drawdown() {
         .chrow { display: grid; grid-template-columns: 34px 1fr 64px; gap: 12px; align-items: center; margin-bottom: 12px; }
         .chchip { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 30px; border-radius: 3px; font-weight: 800; font-size: 14px; }
         .chrow input[type=range] { width: 100%; height: 30px; }
+        .chrow input[type=range]:disabled { opacity: 0.35; cursor: not-allowed; }
         .numin { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; width: 64px; padding: 5px 6px; border: 1.5px solid #000; border-radius: 3px; background: #fff; }
         .labgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
         .labgrid label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 4px; }
@@ -704,7 +705,7 @@ export default function Drawdown() {
               <div className="psub">The white under the ink — spectro the unprinted stock, or describe its cast</div>
             </div>
             <div className="miniseg" role="group" aria-label="Material input mode">
-              <button className={matMode === "cmyk" ? "on" : ""} onClick={() => setMatMode("cmyk")}>CMYK</button>
+              <button className={matMode === "cmyk" ? "on" : ""} onClick={() => setMatMode("cmyk")}>{!isPro ? "CMYK · Pro" : "CMYK"}</button>
               <button className={matMode === "lab" ? "on" : ""} onClick={() => setMatMode("lab")}>{!isPro ? "Lab · Pro" : "Lab"}</button>
             </div>
           </div>
@@ -719,10 +720,13 @@ export default function Drawdown() {
           </div>
           {matMode === "cmyk" ? (
             <>
-              <div className="labnote">No spectro? Describe the stock's cast as a light tint — a touch of Y for warm stock, a point or two of K for grey. (Real substrates only need a few percent, so these run 0–15.)</div>
+              <div className="labnote">Describe the stock's cast as a light tint — a touch of Y for warm stock, a point or two of K for grey. (Real substrates only need a few percent, so these run 0–15.)</div>
               {CHANNELS.map((c, i) => (
-                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} />
+                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} disabled={!isPro} />
               ))}
+              {!isPro && (
+                <div className="pronote">Describing your own material is a Pro feature — the presets above are free.</div>
+              )}
             </>
           ) : (
             <>
