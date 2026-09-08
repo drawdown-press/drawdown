@@ -745,7 +745,7 @@ export default function Drawdown() {
                 ))}
               </div>
               <div className="pressbuild">
-                <span className="pressbuildlbl">Build running:</span>
+                <span className="pressbuildlbl">Build running: CMYK=</span>
                 {CHANNELS.map((c, i) => (
                   <input key={c.key} className="numin sm" type="number" min={0} max={100}
                     value={current[i]} aria-label={`${c.name} build`}
