@@ -30,6 +30,50 @@
     <meta name="twitter:title" content="Drawdown — Press-Side Color Correction" />
     <meta name="twitter:description" content="Enter the color you want and the color you're getting. Drawdown tells you which inks to move to make them match. Free in your browser." />
     <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <!-- Structured data: tells Google this is a software application, free tier, browser-based -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Drawdown",
+      "url": "https://drawdown.press/",
+      "description": "Press-side color correction for printers and sign shops. Enter the color you want and the color you're getting — Drawdown tells you which inks to move to make them match.",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Color Management",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "Requires modern browser with JavaScript",
+      "image": "https://drawdown.press/drawdown-og.png",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free web app for press-side color correction"
+        },
+        {
+          "@type": "Offer",
+          "name": "Drawdown Pro (Monthly)",
+          "price": "8.99",
+          "priceCurrency": "USD",
+          "description": "Pro subscription with ICC press profiles, spectrophotometer Lab entry, per-client tolerances, and job-ticket export"
+        },
+        {
+          "@type": "Offer",
+          "name": "Drawdown Pro (Annual)",
+          "price": "79.00",
+          "priceCurrency": "USD",
+          "description": "Annual Pro subscription"
+        }
+      ],
+      "creator": {
+        "@type": "Person",
+        "name": "A working prepress and signwriting professional",
+        "jobTitle": "Journeyman Signwriter and Prepress Architect"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
