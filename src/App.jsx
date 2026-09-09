@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.20"; // bumped with every release; shown in the footer
+const VERSION = "0.9.21"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -246,6 +246,10 @@ function About() {
           <li>
             <a href="/print-doesnt-match-proof.html">Your print doesn't match the proof — here's how to actually fix it →</a>
             <span className="fnteaser"> The material-white trap, the rookie mistake, and the sneaky cyan bloom that wastes hours.</span>
+          </li>
+          <li>
+            <a href="/why-free-pantone-converters-are-wrong.html">Why free Pantone-to-CMYK converters are wrong (and what to do instead) →</a>
+            <span className="fnteaser"> They're randomly scientific — a shortcut that makes you redo the whole match.</span>
           </li>
         </ul>
       </div>

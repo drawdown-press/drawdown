@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23009DDC' d='M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z'/%3E%3Cpath fill='%230A72B5' d='M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z'/%3E%3C/svg%3E" />
+
+    <title>Why Free Pantone-to-CMYK Converters Are Wrong (and What to Do Instead) | Drawdown</title>
+    <meta name="description" content="A working pressman on why the free Pantone-to-CMYK converters online can't be trusted — they're randomly scientific, print too faint, and force you to start the color match over from scratch." />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/why-free-pantone-converters-are-wrong.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="Why Free Pantone-to-CMYK Converters Are Wrong" />
+    <meta property="og:description" content="A working pressman on why free Pantone-to-CMYK converters can't be trusted — and what to do instead." />
+    <meta property="og:url" content="https://drawdown.press/why-free-pantone-converters-are-wrong.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Why Free Pantone-to-CMYK Converters Are Wrong" />
+    <meta name="twitter:description" content="A working pressman on why free Pantone-to-CMYK converters can't be trusted — and what to do instead." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+      article { margin-top: 30px; }
+      article h1 { font-weight: 800; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 12px; }
+      article .lede { font-size: 17px; line-height: 1.55; color: #333; margin: 0 0 28px; }
+      article h2 { font-weight: 800; font-size: 22px; margin: 34px 0 10px; }
+      article p { font-size: 16px; line-height: 1.65; margin: 0 0 14px; }
+      article ul { padding-left: 20px; margin: 0 0 14px; }
+      article li { font-size: 16px; line-height: 1.65; margin-bottom: 8px; }
+      article strong { font-weight: 700; }
+      article em { font-style: italic; }
+      article a { color: #0A72B5; }
+      .cta { margin-top: 34px; padding: 18px 20px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; }
+      .cta p { margin: 0; }
+      .cta a { font-weight: 700; }
+      .foot { margin-top: 34px; padding-top: 14px; border-top: 1px solid #DDD9CF; font-size: 12.5px; color: #666; }
+      .foot a { color: #000; }
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        article h1 { font-size: 26px; }
+        article h2 { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <article>
+        <h1>Why Free Pantone-to-CMYK Converters Are Wrong (and What to Do Instead)</h1>
+        <p class="lede">Every printer has done it: you need a CMYK build for a Pantone color, you Google "pantone to cmyk," you punch in the number, you take what the free converter spits out, and you print it. And it's wrong. Not slightly — meaningfully wrong. Here's why that keeps happening, and what actually works.</p>
+
+        <h2>They're randomly scientific</h2>
+        <p>Here's the honest problem: most of the free converters floating around the web aren't backed by real color math. There's no substrate model, no dot-gain assumption you can see, no press profile behind the number. They give you <em>a</em> CMYK build — but the calculation behind it is somewhere between a rough lookup and an outright guess. Randomly scientific. It has the shape of a real answer without any of the machinery behind it.</p>
+        <p>You can spot it once you know what to look for: the same Pantone will give you slightly different CMYK values on three different converter sites. That's not a rounding difference — that's each site guessing on its own terms.</p>
+
+        <h2>What actually comes off the press</h2>
+        <p>Here's what happens when you print the number a free converter gives you: it usually comes out <strong>too faint or too light</strong>. Not the color you asked for — a washed-out cousin of it. The build the converter handed you assumed a fantasy: perfect white paper, no dot gain, no substrate influence. None of those are your real world.</p>
+        <p>Light tints sometimes get lucky and land close enough. But a rich, saturated color — a deep green, a real corporate blue, a proper warm gray — those almost never come out right. The build gives you what the math predicts on paper that doesn't exist, and the press gives you what actually shows up on the paper you're on. That's your gap.</p>
+
+        <h2>The irony of the free converter</h2>
+        <p>What most people don't realize until they've done it a few times: <strong>the free converter doesn't save you time. It costs you time.</strong></p>
+        <p>Here's the sequence a lot of shops know by heart: you use the converter to skip the color-matching process. The print comes off wrong. Now you have to start the color-matching process anyway — from scratch — and you've already burned a sheet, some ink, and your first assumption. The tool you used to avoid the work made you do the work twice.</p>
+
+        <h2>Does it ever work?</h2>
+        <p>Sometimes. Rarely. If it's a light tint — a pale grey, a cream, a soft pastel — you can sometimes get lucky. The ink coverage is low, the substrate influence is smaller, and there's less room for the guess to go visibly wrong.</p>
+        <p>But for anything with real chroma — a rich green, a proper gray with weight to it, a saturated brand color — no such luck. Those are the exact colors that matter, and the exact colors the free converters miss the worst.</p>
+
+        <h2>What to do instead</h2>
+        <p>The honest answers, in order of what actually works:</p>
+        <ul>
+          <li><strong>Pull the physical book if the job is important.</strong> A Pantone Formula Guide, printed to spec, is the ground truth — that's what the number is supposed to look like. Evaluate under proper light. Everything else is an approximation of that book.</li>
+          <li><strong>Use a color engine that accounts for reality</strong> — real ICC profiles, dot gain, and substrate. That's what a proper prepress workflow does, and it's the difference between a build and a match.</li>
+          <li><strong>Print a small proof and adjust.</strong> Whatever your starting build, treat it as a starting point, not the final answer. A test patch and one round of adjustment beats a "clean" converter number every time.</li>
+        </ul>
+
+        <h2>The short version</h2>
+        <p>Free Pantone-to-CMYK converters give you a number that looks confident but isn't. It prints too light, misses on any color with real saturation, and forces you to redo the whole color-matching process anyway. They're a shortcut that isn't.</p>
+
+        <div class="cta">
+          <p><strong>Skip the guessing.</strong> <a href="/">Drawdown</a> is built the way the shop actually works — you enter what you're chasing and what your printer is giving you, and it hands back the exact ink moves to close the gap, with the material white accounted for. Not "randomly scientific" — actually scientific. It's free in your browser. <a href="/">Try it →</a></p>
+        </div>
+      </article>
+
+      <footer class="foot">
+        Drawdown — press-side color correction. <a href="/">drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>
