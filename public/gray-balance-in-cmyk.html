@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23009DDC' d='M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z'/%3E%3Cpath fill='%230A72B5' d='M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z'/%3E%3C/svg%3E" />
+
+    <title>Gray Balance in CMYK — What It Is and Why Your Neutrals Drift | Drawdown</title>
+    <meta name="description" content="A working pressman on gray balance in CMYK printing — what it is, why neutrals are the hardest thing to hold on press, and why the spectrophotometer is often your savior when your eye lies." />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/gray-balance-in-cmyk.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="Gray Balance in CMYK — What It Is and Why Your Neutrals Drift" />
+    <meta property="og:description" content="A working pressman on why neutrals are the hardest thing to hold on press — and why the spectrophotometer is often your savior when your eye lies." />
+    <meta property="og:url" content="https://drawdown.press/gray-balance-in-cmyk.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gray Balance in CMYK — What It Is and Why Your Neutrals Drift" />
+    <meta name="twitter:description" content="A working pressman on why neutrals are the hardest thing to hold on press — and why the spectrophotometer is often your savior when your eye lies." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+      article { margin-top: 30px; }
+      article h1 { font-weight: 800; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 12px; }
+      article .lede { font-size: 17px; line-height: 1.55; color: #333; margin: 0 0 28px; }
+      article h2 { font-weight: 800; font-size: 22px; margin: 34px 0 10px; }
+      article p { font-size: 16px; line-height: 1.65; margin: 0 0 14px; }
+      article ul { padding-left: 20px; margin: 0 0 14px; }
+      article li { font-size: 16px; line-height: 1.65; margin-bottom: 8px; }
+      article strong { font-weight: 700; }
+      article em { font-style: italic; }
+      article a { color: #0A72B5; }
+      .cta { margin-top: 34px; padding: 18px 20px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; }
+      .cta p { margin: 0; }
+      .cta a { font-weight: 700; }
+      .foot { margin-top: 34px; padding-top: 14px; border-top: 1px solid #DDD9CF; font-size: 12.5px; color: #666; }
+      .foot a { color: #000; }
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        article h1 { font-size: 26px; }
+        article h2 { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <article>
+        <h1>Gray Balance in CMYK — What It Is and Why Your Neutrals Drift</h1>
+        <p class="lede">Every pressman learns this eventually: gray is the hardest color to hold. Not the flashy stuff — grey. The neutral in a photograph, the gutter of a page, the background of a logo. It's the color most likely to drift on you, and when it does, everyone notices. Here's why that happens, and how to actually think about gray balance.</p>
+
+        <h2>What gray balance actually is</h2>
+        <p>Plain version: gray balance is the exact combination of cyan, magenta, and yellow ink values that produces a <em>neutral</em> gray — a gray without any visible tint, warm or cool. Get the ratio right and it reads as gray. Get it wrong and it reads as green, or pink, or a muddy warm mush that isn't gray at all.</p>
+        <p>Gray balance matters because neutrals are everywhere in real work. Skin tones ride on them. Photograph shadows ride on them. Corporate design leans on them. When the neutrals drift, the whole job looks off — even if none of the "real" colors are visibly wrong.</p>
+
+        <h2>Why neutrals are the hardest thing to hold on press</h2>
+        <p>Here's the honest answer: <strong>whites are not all the same.</strong> Every material — every paper, every vinyl, every banner — has its own white point. Some are cool, some are warm, some drift toward cyan, some toward yellow. And gray, being neutral, is the color most exposed to whatever the substrate is doing underneath.</p>
+        <p>A rich color hides a lot. A saturated red will still read as red even if your substrate is skewing the whole result a little warm. But a neutral gray has no chroma to hide behind — every drift in the substrate white, every dot-gain quirk, every ink imbalance shows up directly in the neutral. That's why grays are the canary. They're the first thing to go wrong and the last thing to hold.</p>
+
+        <h2>The rookie mistake with gray</h2>
+        <p>The obvious move — the one that feels right on paper — is to build a neutral gray as equal parts C, M, and Y. Sensible math. And it's wrong.</p>
+        <p>What actually happens depends entirely on the material you're printing on. On one stock, equal CMY comes out warm. On another, it goes green. On a third, it lands pink. There is no universal "gray build" that works everywhere, because the substrate is part of the equation. The number that hits neutral on coated stock won't hit neutral on uncoated. The number that works for one printer won't work for another.</p>
+        <p>The lesson: <strong>gray isn't a number, it's a target</strong>. The build changes with the material, always.</p>
+
+        <h2>How to actually build a good gray</h2>
+        <p>The honest working method: start with roughly equal CMY, then adjust the balance based on your material — usually a touch less cyan than the magenta and yellow, because cyan tends to dominate visually — and add K sparingly to darken without shifting the tint.</p>
+        <p>The traditional gray-balance builds (published for coated stock: 25/16/16, 50/40/40, 75/66/66 for quarter, mid, and three-quarter tones) are a starting point, not gospel. Uncoated needs different numbers because dot gain is higher. Your specific press and stock need <em>their</em> numbers, dialed in with a test.</p>
+        <p>The key move a lot of shops skip: <strong>build the gray, print it, measure it, then adjust.</strong> Don't trust a published number — trust the sheet.</p>
+
+        <h2>The uncomfortable truth about your eyes</h2>
+        <p>Here's the thing most articles won't tell you: <strong>your eye lies about gray, a little, all the time.</strong> Everyone has some degree of color perception variance — full color-blindness is rare, but subtle imbalances in how each of us sees the primaries are universal. Two pressmen looking at the same gray under the same light will genuinely disagree about which way it drifts.</p>
+        <p>That's the case where a spectrophotometer stops being a nice-to-have and becomes your savior. The instrument doesn't care about the color perception of whoever's holding it. It reads the actual Lab values, and it will tell you the "neutral" gray you're admiring is +2 on the a axis (a hair pink) or −3 on the b (a hint cool) — even though your eye swore it was clean.</p>
+        <p>For critical work, or when two experienced eyes disagree, let the instrument break the tie. The number is the honest answer.</p>
+
+        <h2>The short version</h2>
+        <ul>
+          <li><strong>Gray balance</strong> is the CMY ratio that produces a neutral gray with no visible tint.</li>
+          <li><strong>Neutrals are the hardest thing to hold</strong> because they have no chroma to hide substrate influence.</li>
+          <li><strong>Equal CMY doesn't work everywhere</strong> — the substrate makes it come out green, warm, or pink depending on the stock.</li>
+          <li><strong>Build from the standard numbers, then dial them in on your press and stock.</strong> Use K sparingly to darken without tinting.</li>
+          <li><strong>Trust the spectrophotometer over your eye</strong> — your color perception is subtly different from everyone else's, and gray shows every drift.</li>
+        </ul>
+
+        <div class="cta">
+          <p><strong>Hold the gray without guessing.</strong> <a href="/">Drawdown</a> accounts for your material's white when it calculates a correction, so the ink moves it hands back respect the substrate you're actually on — not a paper-white fantasy. And the printed <a href="/">Gray Balance Field Card</a> gives you a color-managed neutral wedge and the standard builds in your hand at the press. It's free to try in your browser. <a href="/">Try it →</a></p>
+        </div>
+      </article>
+
+      <footer class="foot">
+        Drawdown — press-side color correction. <a href="/">drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>
