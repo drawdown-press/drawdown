@@ -22,9 +22,6 @@
     <meta name="twitter:description" content="A printed, color-managed pocket reference for pressmen and sign shops." />
     <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
 
-    <!-- PayPal Hosted Buttons SDK (loaded once, used by both buttons below) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=BAA4n7m-ZC9bTeanQcxrQzwG6BEZO655P8RpfHs_jzCfnPfOz1KFq1jTO6vnnIzxRJ3fLuSws05D5tkzBg&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
-
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
       body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -49,7 +46,9 @@
       .product .price { font-weight: 700; font-size: 26px; color: #0A72B5; margin: 6px 0 12px; }
       .product .shipnote { font-size: 12.5px; color: #666; margin: 0 0 14px; }
       .product .desc { font-size: 14.5px; line-height: 1.55; color: #333; margin: 0 0 18px; flex: 1; }
-      .paypal-slot { margin-top: 4px; min-height: 45px; }
+      .buybtn { display: inline-block; background: #0A72B5; color: #FFF; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; text-decoration: none; padding: 12px 20px; border-radius: 999px; text-align: center; transition: background 0.15s; }
+      .buybtn:hover { background: #085A91; }
+      .paypal-note { font-size: 11px; color: #888; margin-top: 8px; text-align: center; }
 
       .details { background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 16px 20px; margin: 28px 0; }
       .details h3 { font-weight: 800; font-size: 16px; margin: 0 0 8px; letter-spacing: 0.02em; }
@@ -86,9 +85,8 @@
           <div class="price">$7.99</div>
           <div class="shipnote">Shipping included · US</div>
           <p class="desc">One printed Gray Balance Field Card (3.5 × 2"), color-managed on press, uncoated stock. Includes the printed field guide. Ships in a protective mailer.</p>
-          <div class="paypal-slot">
-            <div id="paypal-container-TY462S9LKQYSN"></div>
-          </div>
+          <a href="https://www.paypal.com/ncp/payment/QNKSESD4L69HN" class="buybtn" target="_blank" rel="noopener">Buy one — $7.99</a>
+          <div class="paypal-note">Secure checkout via PayPal</div>
         </div>
 
         <div class="product">
@@ -96,9 +94,8 @@
           <div class="price">$19.99</div>
           <div class="shipnote">Shipping included · US · best value</div>
           <p class="desc">Three printed Gray Balance Field Cards — one for each station, or a couple to hand to colleagues. Same card, same field guide, same mailer. Better per-card value.</p>
-          <div class="paypal-slot">
-            <div id="paypal-container-T8TH58J4KZUC2"></div>
-          </div>
+          <a href="https://www.paypal.com/ncp/payment/D27CS64MSH9B8" class="buybtn" target="_blank" rel="noopener">Buy the 3-pack — $19.99</a>
+          <div class="paypal-note">Secure checkout via PayPal</div>
         </div>
       </div>
 
@@ -121,11 +118,5 @@
         Drawdown — press-side color correction. <a href="/">drawdown.press</a> · <a href="mailto:hello@drawdown.press">hello@drawdown.press</a>
       </footer>
     </div>
-
-    <!-- Render the PayPal Hosted Buttons after the containers exist in the DOM -->
-    <script>
-      paypal.HostedButtons({ hostedButtonId: "TY462S9LKQYSN" }).render("#paypal-container-TY462S9LKQYSN");
-      paypal.HostedButtons({ hostedButtonId: "T8TH58J4KZUC2" }).render("#paypal-container-T8TH58J4KZUC2");
-    </script>
   </body>
 </html>
