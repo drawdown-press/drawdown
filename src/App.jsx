@@ -196,10 +196,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.19"; // bumped with every release; shown in the footer
+const VERSION = "0.9.20"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "https://drawdownpress.lemonsqueezy.com"; // store front — card options live here
@@ -239,6 +239,16 @@ function About() {
   return (
     <div className="about">
       <h2 className="abouthead">How to use Drawdown</h2>
+      <div className="fieldnotes">
+        <div className="fnhead">Field Notes</div>
+        <div className="fnsub">Deeper reads from the shop.</div>
+        <ul className="fnlist">
+          <li>
+            <a href="/print-doesnt-match-proof.html">Your print doesn't match the proof — here's how to actually fix it →</a>
+            <span className="fnteaser"> The material-white trap, the rookie mistake, and the sneaky cyan bloom that wastes hours.</span>
+          </li>
+        </ul>
+      </div>
       <p className="aboutp">
         Drawdown does one job: you tell it the color you're chasing and the color your machine is
         actually putting down, and it hands back ink moves — "C −3, M +5" — that close the gap.
@@ -515,6 +525,14 @@ export default function Drawdown() {
         .propill { font-size: 11px; font-weight: 700; background: #000; color: #fff; padding: 2px 7px; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
         .tag { font-size: 14px; color: #444; margin-top: 2px; }
         .firsttime { font-size: 13px; color: #555; margin: 22px 0 0; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 10px 13px; }
+        .fieldnotes { margin: 6px 0 22px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 14px 16px; }
+        .fnhead { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; color: #000; }
+        .fnsub { font-size: 12.5px; color: #666; font-style: italic; margin-top: 2px; margin-bottom: 10px; }
+        .fnlist { list-style: none; padding: 0; margin: 0; }
+        .fnlist li { margin: 0 0 8px; font-size: 13.5px; line-height: 1.5; color: #333; }
+        .fnlist li:last-child { margin-bottom: 0; }
+        .fnlist a { font-weight: 700; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
+        .fnteaser { color: #555; }
         .ftlink { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; background: none; border: 0; padding: 0; cursor: pointer; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .seg { display: inline-flex; border: 1.5px solid #000; border-radius: 3px; overflow: hidden; }
         .seg button { font-family: 'Archivo'; font-weight: 600; font-size: 13px; padding: 7px 14px; background: #fff; border: 0; cursor: pointer; }
