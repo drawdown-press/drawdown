@@ -199,10 +199,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.22"; // bumped with every release; shown in the footer
+const VERSION = "0.9.23"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
-const CARD_URL = "https://www.etsy.com/shop/DrawdownPressShop"; // Etsy shop — card options live here
+const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
 
 const PROFILES = [
   { id: "gracol-c", name: "GRACoL 2013 — Coated", gain: 0.14, tac: 320 },
@@ -935,7 +935,7 @@ export default function Drawdown() {
           <div className="cardline">
             Printed Gray Balance Card — a pocket reference for the press.{" "}
             {CARD_URL ? (
-              <a href={CARD_URL} target="_blank" rel="noreferrer">Order cards</a>
+              <a href={CARD_URL}>Order cards</a>
             ) : (
               <a href={`mailto:${CONTACT}?subject=${encodeURIComponent("Gray Balance Card order")}&body=${encodeURIComponent("I'd like to order the Drawdown Gray Balance Card.\n\nQuantity:\nName:\nShipping address:\n\n(I'll reply with payment details.)")}`}>Buy now</a>
             )}
