@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.23"; // bumped with every release; shown in the footer
+const VERSION = "0.9.24"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -442,7 +442,8 @@ export default function Drawdown() {
     const dE = deltaE00(tLab, cLab);
 
     const solved = solveCorrection(cur01, tLab, gain, paper, activeLut, materialLab, cLab);
-    const rec = solved.map((v, i) => Math.round(v * 100) - current[i]);
+    // Correction values shown to 1 decimal — real presses adjust by 0.5, not 0.001.
+    const rec = solved.map((v, i) => Math.round((v * 100 - current[i]) * 10) / 10);
     const applied = current.map((v, i) => clamp(v + rec[i], 0, 100));
     const predictedApplied = cmykToLab(applied.map((v) => v / 100), gain, paper, activeLut, materialLab);
     const measOffset = (pressMode === "lab" && isPro)
@@ -451,6 +452,13 @@ export default function Drawdown() {
          cLab[2] - cmykToLab(cur01, gain, paper, activeLut, materialLab)[2]]
       : [0, 0, 0];
     const dEafter = deltaE00(tLab, [predictedApplied[0] + measOffset[0], predictedApplied[1] + measOffset[1], predictedApplied[2] + measOffset[2]]);
+
+    // Substrate ceiling detection: the solver has hit the material's physical limit
+    // when a channel is pinned at 0 or 100 AND the achievable ΔE is still meaningfully
+    // above a match. That means the solver wanted to keep going but couldn't — the
+    // substrate itself is the wall, not the ink recipe.
+    const atLimit = solved.some((v) => v <= 0.001 || v >= 0.999);
+    const substrateCeiling = atLimit && dEafter > 1.5;
 
     // plain-language read of the drift
     const dL = tLab[0] - cLab[0], da = tLab[1] - cLab[1], db = tLab[2] - cLab[2];
@@ -462,7 +470,7 @@ export default function Drawdown() {
     if (db > 1.5) drift.push("too blue");
     if (db < -1.5) drift.push("too yellow");
 
-    return { tLab, cLab, dE, rec, applied, dEafter, drift };
+    return { tLab, cLab, dE, rec, applied, dEafter, drift, substrateCeiling };
   }, [current, targetCmyk, targetLabIn, targetMode, gain, materialLab, activeLut, pressMode, pressLabIn]);
 
   const verdict = isPro
@@ -475,7 +483,7 @@ export default function Drawdown() {
       : out.dE <= 3.5 ? "Visible in a side-by-side."
       : "Off. The client will see it.");
 
-  const noMove = out.rec.every((d) => d === 0);
+  const noMove = out.rec.every((d) => Math.abs(d) < 0.05);
   const outOfReach = out.dEafter > (isPro ? tol : 2.5);
 
   const activeProfile = PROFILES.find((p) => p.id === profileId);
@@ -489,8 +497,12 @@ export default function Drawdown() {
       ...(TIER === "shop" && SHOP_NAME ? [`Shop: ${SHOP_NAME}`] : []),
       `Target: ${targetMode === "cmyk" ? targetCmyk.join("/") + "  " : ""}${fmt(out.tLab)}`,
       `On press/printer: ${current.join("/")}  ${fmt(out.cLab)}  ΔE00 ${out.dE.toFixed(1)}`,
-      `Moves: ${CHANNELS.map((c, i) => `${c.key} ${out.rec[i] > 0 ? "+" : ""}${out.rec[i]}`).join(" · ")}`,
-      `New build: ${out.applied.join("/")}  predicted ΔE00 ${out.dEafter.toFixed(1)}`,
+      `Moves: ${CHANNELS.map((c, i) => {
+        const v = out.rec[i];
+        const s = Math.abs(v) < 0.05 ? "±0" : v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1);
+        return `${c.key} ${s}`;
+      }).join(" · ")}`,
+      `New build: ${out.applied.map((v) => v.toFixed(1)).join("/")}  predicted ΔE00 ${out.dEafter.toFixed(1)}`,
       `Material: ${fmt(materialLab)}`,
       `Drawdown v${VERSION}`,
     ];
@@ -870,19 +882,24 @@ export default function Drawdown() {
                 : "The drift is mostly in hue — small moves below."}
           </div>
           <div className="moves">
-            {CHANNELS.map((c, i) => (
-              <span key={c.key} className={`move${out.rec[i] === 0 ? " zero" : ""}`}>
-                <span className="dot" style={{ background: c.color }} />
-                {c.key} {out.rec[i] > 0 ? `+${out.rec[i]}` : out.rec[i] === 0 ? "±0" : out.rec[i]}
-              </span>
-            ))}
+            {CHANNELS.map((c, i) => {
+              const v = out.rec[i];
+              const isZero = Math.abs(v) < 0.05;
+              const label = isZero ? "±0" : v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1);
+              return (
+                <span key={c.key} className={`move${isZero ? " zero" : ""}`}>
+                  <span className="dot" style={{ background: c.color }} />
+                  {c.key} {label}
+                </span>
+              );
+            })}
           </div>
           <div className="after">
             {noMove ? (
               <>No whole-point move improves this build.</>
             ) : (
               <>
-                New build <span className="mono">{out.applied.join(" / ")}</span> — predicted ΔE2000{" "}
+                New build <span className="mono">{out.applied.map((v) => v.toFixed(1)).join(" / ")}</span> — predicted ΔE2000{" "}
                 <span className="mono">{out.dEafter.toFixed(1)}</span> after correction.
               </>
             )}
@@ -894,10 +911,16 @@ export default function Drawdown() {
               hit — the moves above are the closest achievable.</span>
             </div>
           )}
+          {out.substrateCeiling && (
+            <div className="warn">
+              <WarnIcon />
+              <span>This is the closest match on this material. The remaining ΔE is the substrate ceiling.</span>
+            </div>
+          )}
           {tacOver && (
             <div className="warn">
               <WarnIcon />
-              <span>The corrected build totals {inkTotal}% ink — over this profile's {activeProfile.tac}% coverage
+              <span>The corrected build totals {Math.round(inkTotal)}% ink — over this profile's {activeProfile.tac}% coverage
               limit. Expect drying and setoff trouble; bring the total down before running it.</span>
             </div>
           )}
