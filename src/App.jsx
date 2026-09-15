@@ -196,10 +196,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.24"; // bumped with every release; shown in the footer
+const VERSION = "0.9.25"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -254,6 +254,10 @@ function About() {
           <li>
             <a href="/gray-balance-in-cmyk.html">Gray balance in CMYK — what it is and why your neutrals drift →</a>
             <span className="fnteaser"> Why equal CMY comes out green (or pink), and why your eye lies about gray.</span>
+          </li>
+          <li>
+            <a href="/from-measurement-to-correction.html">From measurement to correction: using i1 Spot Color Compare with Drawdown →</a>
+            <span className="fnteaser"> How to measure the drift — and what to do with the ΔE number once you have it.</span>
           </li>
         </ul>
       </div>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23009DDC' d='M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z'/%3E%3Cpath fill='%230A72B5' d='M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z'/%3E%3C/svg%3E" />
+
+    <title>From Measurement to Correction: Using i1 Spot Color Compare with Drawdown | Drawdown</title>
+    <meta name="description" content="A working pressman's guide to using X-Rite's i1 Spot Color Compare — how to measure the drift, and what to do with the ΔE number once you have it." />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/from-measurement-to-correction.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="From Measurement to Correction: Using i1 Spot Color Compare with Drawdown" />
+    <meta property="og:description" content="How to measure the drift with X-Rite's Spot Color Compare — and what to do with the ΔE number once you have it." />
+    <meta property="og:url" content="https://drawdown.press/from-measurement-to-correction.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="From Measurement to Correction: Using i1 Spot Color Compare with Drawdown" />
+    <meta name="twitter:description" content="How to measure the drift with X-Rite's Spot Color Compare — and what to do with the ΔE number once you have it." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+      article { margin-top: 30px; }
+      article h1 { font-weight: 800; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 12px; }
+      article .lede { font-size: 17px; line-height: 1.55; color: #333; margin: 0 0 28px; }
+      article h2 { font-weight: 800; font-size: 22px; margin: 34px 0 10px; }
+      article h3 { font-weight: 700; font-size: 17px; margin: 22px 0 6px; color: #333; }
+      article p { font-size: 16px; line-height: 1.65; margin: 0 0 14px; }
+      article ol, article ul { padding-left: 20px; margin: 0 0 14px; }
+      article li { font-size: 16px; line-height: 1.65; margin-bottom: 8px; }
+      article strong { font-weight: 700; }
+      article em { font-style: italic; }
+      article a { color: #0A72B5; }
+      .step { background: #FFF; border: 1px solid #E0DDD4; border-radius: 4px; padding: 14px 18px; margin: 0 0 12px; }
+      .step-num { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.05em; color: #0A72B5; text-transform: uppercase; margin: 0 0 4px; }
+      .step-title { font-weight: 700; font-size: 16.5px; margin: 0 0 6px; }
+      .step p { font-size: 15px; margin: 0 0 8px; }
+      .step p:last-child { margin-bottom: 0; }
+      .ladder { background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 18px 22px; margin: 22px 0; }
+      .ladder h3 { margin-top: 0; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; }
+      .ladder ul { padding-left: 0; margin: 0; list-style: none; }
+      .ladder li { font-size: 14.5px; margin-bottom: 6px; line-height: 1.5; }
+      .ladder li strong { display: inline-block; min-width: 78px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; color: #0A72B5; }
+      .cta { margin-top: 34px; padding: 18px 20px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; }
+      .cta p { margin: 0; }
+      .cta a { font-weight: 700; }
+      .foot { margin-top: 34px; padding-top: 14px; border-top: 1px solid #DDD9CF; font-size: 12.5px; color: #666; }
+      .foot a { color: #000; }
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        article h1 { font-size: 26px; }
+        article h2 { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <article>
+        <h1>From Measurement to Correction: Using i1 Spot Color Compare with Drawdown</h1>
+        <p class="lede">X-Rite's Spot Color Compare is a great tool for reading how far off your print is from the target. What it doesn't tell you is what to do about it. Here's how to use it properly — and then how to close the gap with Drawdown.</p>
+
+        <h2>What Spot Color Compare actually does</h2>
+        <p>Inside i1Profiler, under the Tools section, there's a workflow called <strong>Spot Color Compare</strong>. It's designed to do one job well: measure two color patches with your i1 Pro 3 (or i1 Pro 3 Plus), calculate the ΔE between them, and show you the drift. Reference on the left, Sample on the right, ΔE in the middle.</p>
+        <p>It's a genuinely useful piece of software, but it stops where the interesting question begins. Once you know the ΔE, you still have to figure out which inks to move to close it. That's the handoff to Drawdown. Here's the full workflow, top to bottom.</p>
+
+        <h2>Part 1: Running the Spot Comparison</h2>
+
+        <div class="step">
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Warm up and calibrate the i1</div>
+          <p>Plug the i1 into your computer. Give it three to five minutes to stabilize — spectros drift when cold, and a rushed measurement will send you chasing ghosts. Calibrate against the white tile when i1Profiler prompts you.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Open Spot Color Compare</div>
+          <p>From the Workflow Selector, go to <strong>Tools → Spot Color Compare</strong>. You'll see two large color panels labeled Reference Color and Sample Color, and a Colorimetry panel on the right showing L*a*b* values and ΔE.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Lock down the measurement settings</div>
+          <p>Before measuring anything, set your shop standard on the right-side controls: <strong>Illuminant D50, Observer 2°, Color space CIE Lab, ΔE type ΔE 2000</strong>. These are the professional defaults and they're what Drawdown expects.</p>
+          <p>For the measurement condition (top of each Spot Color panel), <strong>use M1</strong> — the D50 setting with a controlled UV component. It's the industry standard for wide-format work because most modern sign substrates contain optical brighteners that react to UV, and M0 doesn't handle those consistently. Once you pick M1, use it every measurement. Mixing conditions across a session produces garbage ΔE.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Measure the Reference (your target)</div>
+          <p>The Reference is the color you're chasing — the proof, the client's swatch, the Pantone chip. Lay the i1 on it and press the button. The Reference L*a*b* fills in. That's your target color, measured, in real numbers.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 5</div>
+          <div class="step-title">Measure the Sample (what's on press or printer)</div>
+          <p>Pull a sheet off the press or printer and measure the same color area. The Sample L*a*b* fills in, and Spot Color Compare immediately shows the ΔE between them. That number is how far off you are.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 6</div>
+          <div class="step-title">Measure the substrate too</div>
+          <p>One extra reading worth taking: measure a bare, unprinted area of your material. Note the L*a*b*. That's your material white, and it's the number most color-matching guides forget matters — but it's often the reason a build won't hit the target no matter what you do. Save it.</p>
+        </div>
+
+        <h2>Reading the ΔE — what the number means</h2>
+        <p>Here's where a lot of shops get stuck: Spot Color Compare hands you a number, but never tells you whether it's good or bad. In practice, ΔE reads on a ladder that pressmen learn by experience — or by having someone put it in plain terms:</p>
+
+        <div class="ladder">
+          <h3>THE ΔE LADDER (ΔE 2000)</h3>
+          <ul>
+            <li><strong>&lt; 1.0</strong>You're inside a drawdown match. Don't chase it.</li>
+            <li><strong>1.0 – 2.0</strong>Commercial match. Most jobs pass here.</li>
+            <li><strong>2.0 – 3.5</strong>Visible side-by-side. Correct if the client will see both.</li>
+            <li><strong>&gt; 3.5</strong>The client will call. Correct before you run the job.</li>
+          </ul>
+        </div>
+
+        <p>Where you set your pass line depends on the job. Critical brand color work often demands ΔE under 2. General commercial work is fine at 2–3. If your Spot Color Compare reading is 4, 5, or higher, you have a correction to make — and that's where you leave i1Profiler behind and pick up Drawdown.</p>
+
+        <h2>Part 2: Handing off to Drawdown</h2>
+        <p>Now you have three real measurements sitting in front of you: the Reference Lab (target), the Sample Lab (on-press or on-printer), and the material Lab. Spot Color Compare has done its job — it's told you the gap. Drawdown's job is to close it.</p>
+
+        <div class="step">
+          <div class="step-num">Step 7</div>
+          <div class="step-title">Open Drawdown Pro in your browser</div>
+          <p>Head to <a href="/">drawdown.press</a>. In Pro, all three input panels (Target, On press/printer, and Material) accept Lab values directly — no need to convert anything by hand.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 8</div>
+          <div class="step-title">Enter the three measurements</div>
+          <p>Switch each panel to Lab mode and enter the values from Spot Color Compare:</p>
+          <ul>
+            <li><strong>Target:</strong> the Reference L*a*b* from Spot Color Compare.</li>
+            <li><strong>On press/printer:</strong> the Sample L*a*b*.</li>
+            <li><strong>Material:</strong> the bare-substrate L*a*b* you measured in step 6.</li>
+          </ul>
+          <p>Also enter the CMYK build that's currently running in the small "Build running" row — Drawdown needs to know your starting recipe to tell you what to move.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">Step 9</div>
+          <div class="step-title">Read the correction and apply it</div>
+          <p>Drawdown returns the CMYK moves — <em>+2.3 C, −1.5 M, ±0 Y, +0.8 K</em>, or whatever the math says. Apply those exact moves to your build in the RIP, print a new sample, and measure it again with Spot Color Compare. The ΔE should drop into the acceptable range.</p>
+          <p>If Drawdown flags a substrate ceiling — the warning that says <em>"this is the closest match on this material"</em> — you've hit the physical limit of what this stock can produce, and no further correction will get you closer. That's honest information; change the media or accept the match.</p>
+        </div>
+
+        <h2>Why this workflow works</h2>
+        <p>The reason this pairing is powerful is that each tool does exactly what it's best at. Spot Color Compare is a measurement instrument's software — it reads reality precisely and reports it. Drawdown is a correction engine — it takes the reported reality and tells you what to change. Neither replaces the other, and neither works as well alone.</p>
+        <p>A lot of shops get halfway through this workflow — they measure faithfully, they know the ΔE, they read the color drift — but they still guess at the fix. That's where hours vanish and remakes pile up. Drawdown finishes the workflow: measurement to number, number to correction, correction to a sheet that matches.</p>
+
+        <div class="cta">
+          <p><strong>You've measured the gap. Drawdown closes it.</strong> Take your Reference, Sample, and substrate Lab values from Spot Color Compare, enter them into <a href="/">Drawdown Pro</a>, and get the exact CMYK moves to bring the drift back inside your pass line. Free to try in your browser. <a href="/">Open Drawdown →</a></p>
+        </div>
+      </article>
+
+      <footer class="foot">
+        Drawdown — press-side color correction. <a href="/">drawdown.press</a> · <a href="mailto:hello@drawdown.press">hello@drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>
