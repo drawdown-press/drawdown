@@ -196,10 +196,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 }
 
 /* ---------------- UI ---------------- */
-const TIER = "pro"; // "free" | "pro" | "shop" — set by the license key
+const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.25"; // bumped with every release; shown in the footer
+const VERSION = "0.9.26"; // bumped with every release; shown in the footer
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -958,7 +958,7 @@ export default function Drawdown() {
               <a href={`mailto:${CONTACT}`}>{CONTACT}</a>.
             </>
           )}
-          <div className="ver mono">Drawdown v{VERSION}</div>
+          <div className="ver mono">Drawdown v{VERSION} · actively improving</div>
           <div className="cardline">
             Printed Gray Balance Card — a pocket reference for the press.{" "}
             {CARD_URL ? (
