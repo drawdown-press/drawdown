@@ -199,7 +199,11 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.26"; // bumped with every release; shown in the footer
+const VERSION = "0.9.27"; // bumped with every release; shown in the footer
+// Replace this with the real Kit (ConvertKit) form action URL once you create a free Kit form.
+// See: kit.com → New Form → Settings → Embed → Raw HTML → copy the <form action="..."> URL.
+// Shape: https://app.kit.com/forms/XXXXXXX/subscriptions
+const KIT_FORM_ACTION = "https://app.kit.com/forms/REPLACE_WITH_YOUR_FORM_ID/subscriptions";
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -260,6 +264,34 @@ function About() {
             <span className="fnteaser"> How to measure the drift — and what to do with the ΔE number once you have it.</span>
           </li>
         </ul>
+      </div>
+
+      <div className="capturebox">
+        <div className="capthead">Get the Drawdown Pocket Reference</div>
+        <div className="capsub">
+          A one-page, printable color-matching cheat sheet — ΔE ladder, drift map, material-white reminder,
+          and gray balance builds for coated and uncoated. Keep it by the press.
+          You'll also get a note when Pro lands and when related tools (FlightDeck) go live.
+        </div>
+        <form
+          className="capform"
+          action={KIT_FORM_ACTION}
+          method="post"
+          target="_blank"
+        >
+          <input
+            type="email"
+            name="email_address"
+            required
+            placeholder="your@email"
+            aria-label="Email address"
+            className="capinput"
+          />
+          <button type="submit" className="capbtn">Send me the reference</button>
+        </form>
+        <div className="capfoot">
+          No spam. Unsubscribe one click. Reference is free whether you stay on the list or not.
+        </div>
       </div>
       <p className="aboutp">
         Drawdown does one job: you tell it the color you're chasing and the color your machine is
@@ -557,6 +589,15 @@ export default function Drawdown() {
         .fnlist li:last-child { margin-bottom: 0; }
         .fnlist a { font-weight: 700; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .fnteaser { color: #555; }
+        .capturebox { margin: 6px 0 22px; background: #EFF4F8; border: 1px solid #CCDBE6; border-radius: 4px; padding: 16px 18px; }
+        .capthead { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.01em; color: #000; }
+        .capsub { font-size: 13px; line-height: 1.55; color: #333; margin: 6px 0 12px; }
+        .capform { display: flex; gap: 8px; flex-wrap: wrap; }
+        .capinput { flex: 1; min-width: 180px; padding: 9px 11px; border: 1px solid #B8C7D4; border-radius: 3px; font-family: inherit; font-size: 14px; background: #FFF; color: #000; }
+        .capinput:focus { outline: none; border-color: #0A72B5; box-shadow: 0 0 0 2px rgba(10,114,181,0.15); }
+        .capbtn { padding: 9px 16px; background: #0A72B5; color: #FFF; border: none; border-radius: 3px; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
+        .capbtn:hover { background: #085A91; }
+        .capfoot { font-size: 11.5px; color: #666; margin-top: 9px; }
         .ftlink { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; background: none; border: 0; padding: 0; cursor: pointer; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .seg { display: inline-flex; border: 1.5px solid #000; border-radius: 3px; overflow: hidden; }
         .seg button { font-family: 'Archivo'; font-weight: 600; font-size: 13px; padding: 7px 14px; background: #fff; border: 0; cursor: pointer; }
@@ -966,6 +1007,12 @@ export default function Drawdown() {
             ) : (
               <a href={`mailto:${CONTACT}?subject=${encodeURIComponent("Gray Balance Card order")}&body=${encodeURIComponent("I'd like to order the Drawdown Gray Balance Card.\n\nQuantity:\nName:\nShipping address:\n\n(I'll reply with payment details.)")}`}>Buy now</a>
             )}
+          </div>
+          <div className="cardline">
+            Want the free one-page color-matching reference and a note when Pro lands?{" "}
+            <a href="#" onClick={(e) => { e.preventDefault(); setPage("about"); setTimeout(() => document.querySelector(".capturebox")?.scrollIntoView({ behavior: "smooth" }), 50); }}>
+              Grab the Pocket Reference
+            </a>
           </div>
         </footer>
       </div>
