@@ -199,11 +199,9 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.27"; // bumped with every release; shown in the footer
-// Replace this with the real Kit (ConvertKit) form action URL once you create a free Kit form.
-// See: kit.com → New Form → Settings → Embed → Raw HTML → copy the <form action="..."> URL.
-// Shape: https://app.kit.com/forms/XXXXXXX/subscriptions
-const KIT_FORM_ACTION = "https://app.kit.com/forms/REPLACE_WITH_YOUR_FORM_ID/subscriptions";
+const VERSION = "0.9.30"; // bumped with every release; shown in the footer
+// Kit (ConvertKit) form submission endpoint. UID is bc034e2617.
+const KIT_FORM_ACTION = "https://app.kit.com/forms/bc034e2617/subscriptions";
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -270,8 +268,9 @@ function About() {
         <div className="capthead">Get the Drawdown Pocket Reference</div>
         <div className="capsub">
           A one-page, printable color-matching cheat sheet — ΔE ladder, drift map, material-white reminder,
-          and gray balance builds for coated and uncoated. Keep it by the press.
-          You'll also get a note when Pro lands and when related tools (FlightDeck) go live.
+          CMYK recipes for common blacks and grays, measurement-condition quick ref, and gray balance builds
+          for coated and uncoated. Keep it by your desk. You'll also get a note when Pro lands and when
+          related tools go live.
         </div>
         <form
           className="capform"
@@ -279,18 +278,32 @@ function About() {
           method="post"
           target="_blank"
         >
+          {/* Honeypot: hidden from humans, bots fill it in and we filter them. */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            className="honeypot"
+            aria-hidden="true"
+          />
           <input
             type="email"
             name="email_address"
             required
             placeholder="your@email"
             aria-label="Email address"
+            autoComplete="email"
+            spellCheck={false}
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+            title="Enter a valid email address"
             className="capinput"
           />
           <button type="submit" className="capbtn">Send me the reference</button>
         </form>
         <div className="capfoot">
-          No spam. Unsubscribe one click. Reference is free whether you stay on the list or not.
+          No spam. Confirm-via-email required (which stops bots). Unsubscribe one click.
+          Reference is free whether you stay on the list or not.
         </div>
       </div>
       <p className="aboutp">
@@ -598,6 +611,7 @@ export default function Drawdown() {
         .capbtn { padding: 9px 16px; background: #0A72B5; color: #FFF; border: none; border-radius: 3px; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
         .capbtn:hover { background: #085A91; }
         .capfoot { font-size: 11.5px; color: #666; margin-top: 9px; }
+        .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
         .ftlink { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; background: none; border: 0; padding: 0; cursor: pointer; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .seg { display: inline-flex; border: 1.5px solid #000; border-radius: 3px; overflow: hidden; }
         .seg button { font-family: 'Archivo'; font-weight: 600; font-size: 13px; padding: 7px 14px; background: #fff; border: 0; cursor: pointer; }
