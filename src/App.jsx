@@ -199,9 +199,10 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.30"; // bumped with every release; shown in the footer
-// Kit (ConvertKit) form submission endpoint. UID is bc034e2617.
-const KIT_FORM_ACTION = "https://app.kit.com/forms/bc034e2617/subscriptions";
+const VERSION = "0.9.31"; // bumped with every release; shown in the footer
+// Kit (ConvertKit) embed — their JS loader renders the form into #kit-form-mount.
+const KIT_FORM_UID = "bc034e2617";
+const KIT_FORM_SRC = `https://drawdown-press.kit.com/${KIT_FORM_UID}/index.js`;
 const CONTACT = "hello@drawdown.press"; // used by the footer pitch, About page, and card buy link
 const PRO_URL = ""; // paste your checkout page URL here when it exists; empty scrolls to the pitch
 const CARD_URL = "/cards.html"; // the on-site product page with both single and 3-pack Buy options
@@ -238,6 +239,20 @@ function Mark({ h = 38 }) {
 }
 
 function About() {
+  // Load Kit's form script once when About mounts. Kit injects the form into
+  // the sibling of its <script> tag, so we drop the script into our mount div
+  // and let Kit do the rest. Guard against double-load if About re-mounts.
+  useEffect(() => {
+    const mount = document.getElementById("kit-form-mount");
+    if (!mount) return;
+    if (mount.querySelector(`script[data-uid="${KIT_FORM_UID}"]`)) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = KIT_FORM_SRC;
+    s.setAttribute("data-uid", KIT_FORM_UID);
+    mount.appendChild(s);
+  }, []);
+
   return (
     <div className="about">
       <h2 className="abouthead">How to use Drawdown</h2>
@@ -272,35 +287,8 @@ function About() {
           for coated and uncoated. Keep it by your desk. You'll also get a note when Pro lands and when
           related tools go live.
         </div>
-        <form
-          className="capform"
-          action={KIT_FORM_ACTION}
-          method="post"
-          target="_blank"
-        >
-          {/* Honeypot: hidden from humans, bots fill it in and we filter them. */}
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            className="honeypot"
-            aria-hidden="true"
-          />
-          <input
-            type="email"
-            name="email_address"
-            required
-            placeholder="your@email"
-            aria-label="Email address"
-            autoComplete="email"
-            spellCheck={false}
-            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-            title="Enter a valid email address"
-            className="capinput"
-          />
-          <button type="submit" className="capbtn">Send me the reference</button>
-        </form>
+        {/* Kit renders its form here. The script in useEffect injects it on mount. */}
+        <div id="kit-form-mount" />
         <div className="capfoot">
           No spam. Confirm-via-email required (which stops bots). Unsubscribe one click.
           Reference is free whether you stay on the list or not.
