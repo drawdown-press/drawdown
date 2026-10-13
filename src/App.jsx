@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.31"; // bumped with every release; shown in the footer
+const VERSION = "0.9.32"; // bumped with every release; shown in the footer
 // Kit (ConvertKit) embed — their JS loader renders the form into #kit-form-mount.
 const KIT_FORM_UID = "bc034e2617";
 const KIT_FORM_SRC = `https://drawdown-press.kit.com/${KIT_FORM_UID}/index.js`;
@@ -716,7 +716,7 @@ export default function Drawdown() {
                 {page === "about" ? "Back to the tool" : "How to use"}
               </button>
             </div>
-            <div className="tag">Two colors in, ink moves out. Tell it what's printing — it tells you what to move.</div>
+            <div className="tag">Color matching for printers and prepress. Enter the color you want and the color you're getting, and Drawdown tells you which inks to move.</div>
           </div>
           {isPro ? (
             <select
@@ -741,7 +741,7 @@ export default function Drawdown() {
         ) : (
           <>
         <div className="firsttime">
-          First time? Enter your target and what's on press/printer — Drawdown tells you what to move.{" "}
+          First time? Enter your target color and what's printing on press/printer — Drawdown tells you what to move.{" "}
           <button className="ftlink" onClick={() => setPage("about")}>Full walkthrough →</button>
         </div>
         <section className="hero" aria-label="Comparison">
