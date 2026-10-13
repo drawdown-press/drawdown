@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.32"; // bumped with every release; shown in the footer
+const VERSION = "0.9.34"; // bumped with every release; shown in the footer
 // Kit (ConvertKit) embed — their JS loader renders the form into #kit-form-mount.
 const KIT_FORM_UID = "bc034e2617";
 const KIT_FORM_SRC = `https://drawdown-press.kit.com/${KIT_FORM_UID}/index.js`;
@@ -564,7 +564,9 @@ export default function Drawdown() {
         .inner { max-width: 720px; margin: 0 auto; }
         .mast { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
         .mark { font-weight: 800; font-size: 30px; letter-spacing: -0.02em; }
-        .markrow { display: flex; align-items: center; gap: 10px; }
+        .masthead-main { flex: 1 1 100%; }
+        .markrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .markrow .seg, .markrow .profsel { margin-left: auto; }
         .logomark { display: block; flex: none; }
         .tierbadge { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 3px; border: 1.5px solid #000; white-space: nowrap; }
         .tierbadge.free { background: #fff; color: #000; }
@@ -695,7 +697,7 @@ export default function Drawdown() {
 
       <div className="inner">
         <header className="mast">
-          <div>
+          <div className="masthead-main">
             <div className="markrow">
               <Mark />
               <div className="mark">Drawdown</div>
@@ -715,25 +717,29 @@ export default function Drawdown() {
               <button className="navlink" onClick={() => setPage(page === "about" ? "app" : "about")}>
                 {page === "about" ? "Back to the tool" : "How to use"}
               </button>
+              {isPro ? (
+                <select
+                  className="profsel" value={profileId} aria-label="Press profile"
+                  onChange={(e) => setProfileId(e.target.value)}
+                >
+                  {PROFILES.map((p) => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                  <option value="custom" disabled>Your press profile — arrives with the ICC engine</option>
+                </select>
+              ) : (
+                <div className="seg" role="group" aria-label="Stock">
+                  <button className={stock === "coated" ? "on" : ""} onClick={() => setStock("coated")}>Coated</button>
+                  <button className={stock === "uncoated" ? "on" : ""} onClick={() => setStock("uncoated")}>Uncoated</button>
+                </div>
+              )}
             </div>
-            <div className="tag">Color matching for printers and prepress. Enter the color you want and the color you're getting, and Drawdown tells you which inks to move.</div>
+            <div className="tag">
+              Color matching for printers and prepress.
+              <br /><br />
+              Enter the color you want and the color you're getting, and Drawdown tells you which inks to move.
+            </div>
           </div>
-          {isPro ? (
-            <select
-              className="profsel" value={profileId} aria-label="Press profile"
-              onChange={(e) => setProfileId(e.target.value)}
-            >
-              {PROFILES.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-              <option value="custom" disabled>Your press profile — arrives with the ICC engine</option>
-            </select>
-          ) : (
-            <div className="seg" role="group" aria-label="Stock">
-              <button className={stock === "coated" ? "on" : ""} onClick={() => setStock("coated")}>Coated</button>
-              <button className={stock === "uncoated" ? "on" : ""} onClick={() => setStock("uncoated")}>Uncoated</button>
-            </div>
-          )}
         </header>
 
         {page === "about" ? (
