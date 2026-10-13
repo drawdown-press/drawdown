@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.35"; // bumped with every release; shown in the footer
+const VERSION = "0.9.36"; // bumped with every release; shown in the footer
 // Kit (ConvertKit) embed — their JS loader renders the form into #kit-form-mount.
 const KIT_FORM_UID = "bc034e2617";
 const KIT_FORM_SRC = `https://drawdown-press.kit.com/${KIT_FORM_UID}/index.js`;
@@ -583,7 +583,9 @@ export default function Drawdown() {
         .about li { font-size: 14.5px; line-height: 1.6; margin-bottom: 7px; }
         .propill { font-size: 11px; font-weight: 700; background: #000; color: #fff; padding: 2px 7px; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
         .tag { font-size: 14px; color: #444; margin-top: 2px; }
-        .firsttime { font-size: 13px; color: #555; margin: 22px 0 0; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 10px 13px; }
+        .firsttime { font-size: 13px; color: #555; margin: 22px 0 0; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 10px 13px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+        .firsttime .fttext { flex: 1 1 auto; min-width: 0; }
+        .firsttime .ftlink { margin-left: auto; flex: 0 0 auto; white-space: nowrap; }
         .fieldnotes { margin: 6px 0 22px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; padding: 14px 16px; }
         .fnhead { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; color: #000; }
         .fnsub { font-size: 12.5px; color: #666; font-style: italic; margin-top: 2px; margin-bottom: 10px; }
@@ -747,7 +749,7 @@ export default function Drawdown() {
         ) : (
           <>
         <div className="firsttime">
-          First time? Enter your target color and what's printing on press/printer — Drawdown tells you what to move.{" "}
+          <span className="fttext">First time? Enter your target color and what's printing on press/printer — Drawdown tells you what to move.</span>
           <button className="ftlink" onClick={() => setPage("about")}>Full walkthrough →</button>
         </div>
         <section className="hero" aria-label="Comparison">
