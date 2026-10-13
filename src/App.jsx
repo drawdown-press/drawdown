@@ -199,7 +199,7 @@ function solveCorrection(current, targetLab, gain, paper, lut, matLab, measuredL
 const TIER = "free"; // "free" | "pro" | "shop" — set by the license key
 const SHOP_NAME = ""; // shop-license name; shown on the badge and job tickets when TIER is "shop"
 const isPro = TIER === "pro" || TIER === "shop"; // Pro features unlock for both paid tiers
-const VERSION = "0.9.34"; // bumped with every release; shown in the footer
+const VERSION = "0.9.35"; // bumped with every release; shown in the footer
 // Kit (ConvertKit) embed — their JS loader renders the form into #kit-form-mount.
 const KIT_FORM_UID = "bc034e2617";
 const KIT_FORM_SRC = `https://drawdown-press.kit.com/${KIT_FORM_UID}/index.js`;
@@ -897,9 +897,9 @@ export default function Drawdown() {
           </div>
           {matMode === "cmyk" ? (
             <>
-              <div className="labnote">Describe the stock's cast as a light tint — a touch of Y for warm stock, a point or two of K for grey. (Real substrates only need a few percent, so these run 0–15.)</div>
+              <div className="labnote">Describe your substrate. Paper gets a touch of Y or K for warm or grey stock. Colored vinyl, banner, or film takes the full value — Y 100 for yellow stock, C 80 Y 100 for green, M 90 Y 90 for red. Drawdown warns you if your target can't be reached on it.</div>
               {CHANNELS.map((c, i) => (
-                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={15} />
+                <ChannelRow key={c.key} ch={i} value={matCmyk[i]} onChange={(v) => setMc(i, v)} max={100} />
               ))}
             </>
           ) : (
