@@ -65,6 +65,64 @@
       }
     }
     </script>
+
+    <!-- FAQ schema: Google can show these as rich-result accordions on the SERP. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does Drawdown do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Drawdown is a press-side color-correction tool. You enter the color you want and the color you're getting, and it tells you which inks to move and by how much to close the gap. It accounts for the material you're printing on, so you aren't fighting the substrate blind. It runs in your browser, no signup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why don't free Pantone to CMYK converters work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most free Pantone to CMYK converters hand you a static set of numbers from an undocumented formula and call it a conversion. The real conversion depends on your press, your ink, and the substrate you're printing on. A number pulled off a lookup table doesn't know what you're printing on, so it prints too faint, off-cast, and leaves you color-matching from scratch anyway. Drawdown skips the lookup and matches the color against what you're actually printing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a spectrophotometer to use Drawdown?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The free tier is built for eyeball matching. You enter the target color and what you're seeing on press, and Drawdown hands you the correction. A spectrophotometer makes the match tighter and will be supported in the Pro tier, but it isn't required to use the tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Drawdown work for digital printing or just offset?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both. The underlying math is CMYK and works the same whether you're on an offset press, a wide-format digital printer, a flatbed, or a solvent machine. Press operators and sign shops use it on all of these. The substrate accounting is what matters, not the press type."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a drawdown?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A drawdown is a test print of an ink on the actual stock, pulled before a run to confirm the color is right. It's the pressman's reality check. The tool is named after it because that's exactly what it does, numerically: pull a test, compare it to the target, and tell you how to adjust."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the ink corrections?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Accurate enough to put you in the right neighborhood on the first try instead of after four. The free tier uses a generic press model, so it's honest ballpark, not final-color precision. Pair it with your eye and a good viewing booth and it gets you close fast. The Pro tier adds ICC profiles and spectro input for tighter matches."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
