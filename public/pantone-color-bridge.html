@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <title>What Is the Pantone Color Bridge, and When Is It Lying to You? | Drawdown</title>
+    <meta name="description" content="A pressman on what Pantone Color Bridge actually gives you, the one condition it assumes, and the moment it starts quietly misleading you about what your print will look like." />
+    <meta name="keywords" content="pantone color bridge, pantone bridge cmyk, color bridge coated, color bridge accuracy, pantone to cmyk gracol, pms to process color" />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/pantone-color-bridge.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="What Is the Pantone Color Bridge, and When Is It Lying to You?" />
+    <meta property="og:description" content="A pressman on what Color Bridge gives you, and the moment it starts quietly misleading you." />
+    <meta property="og:url" content="https://drawdown.press/pantone-color-bridge.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="What Is the Pantone Color Bridge, and When Is It Lying to You?" />
+    <meta name="twitter:description" content="A pressman on what Color Bridge gives you, and the moment it starts quietly misleading you." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+      article { margin-top: 30px; }
+      article h1 { font-weight: 800; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 12px; }
+      article .lede { font-size: 17px; line-height: 1.55; color: #333; margin: 0 0 28px; }
+      article h2 { font-weight: 800; font-size: 22px; margin: 34px 0 10px; }
+      article p { font-size: 16px; line-height: 1.65; margin: 0 0 14px; }
+      article ul { padding-left: 20px; margin: 0 0 14px; }
+      article li { font-size: 16px; line-height: 1.65; margin-bottom: 8px; }
+      article strong { font-weight: 700; }
+      article em { font-style: italic; }
+      article a { color: #0A72B5; }
+      .cta { margin-top: 34px; padding: 18px 20px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; }
+      .cta p { margin: 0; }
+      .cta a { font-weight: 700; }
+      .foot { margin-top: 34px; padding-top: 14px; border-top: 1px solid #DDD9CF; font-size: 12.5px; color: #666; }
+      .foot a { color: #000; }
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        article h1 { font-size: 26px; }
+        article h2 { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <article>
+        <h1>What Is the Pantone Color Bridge, and When Is It Lying to You?</h1>
+        <p class="lede">Pantone Color Bridge looks like a cheat code: the real spot color on the left, the CMYK equivalent right next to it. Easy. You pick the CMYK build and you print. Except Color Bridge comes with a quiet condition most people don't read. When your job doesn't meet it, the number on the right is still looking at you confidently, but it's wrong for the job you're running.</p>
+
+        <h2>What Color Bridge actually is</h2>
+        <p>Open the Color Bridge Coated book and here's what you're looking at: on each row, Pantone shows you the <strong>real spot ink</strong> on the left, printed as its mixed formula. On the right, they show you their <strong>best CMYK approximation</strong> of that same color, printed next to it so you can compare. The idea is you get to see the compromise before you commit to it. If the CMYK side looks close enough to the spot side, you can save the client the cost of a fifth color.</p>
+        <p>That's the useful part. The side-by-side is honest. Nothing is hidden. The compromise is right there in front of you.</p>
+
+        <h2>The condition most people miss</h2>
+        <p>Here's the thing nobody puts in big letters: those two patches were printed under <strong>one specific set of conditions</strong>. Pantone built the Color Bridge Coated book around <strong>GRACoL on a premium coated #1 paper, offset press, standardized ink</strong>. That's the baseline. That's the assumption behind every number on the right-hand side.</p>
+        <p>If you're running that spec, Color Bridge is a reasonable prediction. If you're running anything else, the CMYK number is still Pantone's recommended build for GRACoL, printed next to the spot sample for GRACoL, under conditions nobody actually told you about.</p>
+        <p>That's the quiet part. The book is calibrated to one scenario and labeled as if it were universal.</p>
+
+        <h2>Where it starts to mislead</h2>
+        <p>Pull the CMYK number from Color Bridge and feed it into any of these jobs and the result drifts:</p>
+        <ul>
+          <li><strong>Wide-format digital on vinyl.</strong> Different ink chemistry, different substrate, different dot behavior. The Color Bridge CMYK is still a GRACoL offset recommendation.</li>
+          <li><strong>Uncoated stock.</strong> You're reading from a book calibrated to coated paper. The build you pull will land lighter and softer than the chip shows.</li>
+          <li><strong>Any press not profiled to GRACoL.</strong> Running SWOP? Running a shop profile? Running a cheap sheetfed on house stock? The build is now in the wrong neighborhood for your actual output.</li>
+          <li><strong>Flexo, screen, inkjet, dye-sub.</strong> Entirely different process. Color Bridge isn't even trying to predict those.</li>
+        </ul>
+        <p>In every one of these cases, Color Bridge still gives you a number. The number is still printed in a book that says Pantone on the cover. The confidence is unchanged. The accuracy is not.</p>
+
+        <h2>What it's actually good for</h2>
+        <p>Color Bridge earns its keep in two ways, and it's worth being honest about both.</p>
+        <p><strong>First, as a conversation.</strong> When a client sends you a spot color and asks if it can be run as process to save money, Color Bridge gives you something to point at. "This is the spot. This is the CMYK Pantone recommends. Here's how close they are, side by side." The decision is informed and the client sees the compromise with their own eyes.</p>
+        <p><strong>Second, as a starting point.</strong> If your job is close to Color Bridge's assumed conditions, the CMYK recommendation is a reasonable first swing. You still have to proof. You still have to measure. But you're not starting from zero.</p>
+        <p>What Color Bridge is <em>not</em> is a universal lookup. It's a one-condition prediction in a book that doesn't advertise its condition.</p>
+
+        <h2>How to use it without getting burned</h2>
+        <ul>
+          <li><strong>Read the fine print once.</strong> Color Bridge Coated assumes GRACoL on premium coated #1. Color Bridge Uncoated assumes a different (uncoated) GRACoL spec. If your job isn't near either, the number is a rough suggestion, not a target.</li>
+          <li><strong>Use it to show the compromise, not pick the build.</strong> The real value is in the comparison, not in the CMYK number.</li>
+          <li><strong>Always proof on your actual stock.</strong> The number is a hypothesis. Your drawdown is the experiment.</li>
+          <li><strong>If you need the real color, run it as spot.</strong> That's what Color Bridge is telling you by showing the gap in the first place.</li>
+        </ul>
+
+        <h2>The short version</h2>
+        <p>Pantone Color Bridge is a side-by-side of a spot color and its CMYK approximation, printed under one set of conditions: GRACoL offset on premium coated #1 paper. When your job matches that spec, the CMYK number is a reasonable start. When it doesn't, you're pulling a GRACoL recommendation into a non-GRACoL world and expecting it to land. Use the book for the conversation about compromise. Trust your own proof for the actual match.</p>
+
+        <div class="cta">
+          <p><strong>Stop treating a lookup as a target.</strong> <a href="/">Drawdown</a> works from what your press is actually giving you, not what a book assumes it should. Enter the target color, enter what you're printing, and it tells you which inks to move. The material white is part of the math, not an afterthought. Free in your browser. <a href="/">Try it →</a></p>
+        </div>
+      </article>
+
+      <footer class="foot">
+        Drawdown. Press-side color correction. <a href="/">drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>

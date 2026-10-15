@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <title>Why Metallic and Neon Pantones Can't Be Converted to CMYK | Drawdown</title>
+    <meta name="description" content="A pressman on why metallic and neon Pantone colors are physically outside the CMYK gamut, what happens when you try anyway, and what to do when the client wants silver on a budget." />
+    <meta name="keywords" content="metallic pantone cmyk, neon pantone cmyk, fluorescent pantone, pantone 871, pantone 877, pantone 806, silver gold ink, out of gamut colors, pantone to cmyk impossible" />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/metallic-neon-pantone-cmyk.html" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="Why Metallic and Neon Pantones Can't Be Converted to CMYK" />
+    <meta property="og:description" content="A pressman on why metallics and neons are outside the CMYK gamut, and what to do when the client wants silver on a budget." />
+    <meta property="og:url" content="https://drawdown.press/metallic-neon-pantone-cmyk.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Why Metallic and Neon Pantones Can't Be Converted to CMYK" />
+    <meta name="twitter:description" content="A pressman on why metallics and neons are outside the CMYK gamut, and what to do when the client wants silver on a budget." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+      article { margin-top: 30px; }
+      article h1 { font-weight: 800; font-size: 32px; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 12px; }
+      article .lede { font-size: 17px; line-height: 1.55; color: #333; margin: 0 0 28px; }
+      article h2 { font-weight: 800; font-size: 22px; margin: 34px 0 10px; }
+      article p { font-size: 16px; line-height: 1.65; margin: 0 0 14px; }
+      article ul { padding-left: 20px; margin: 0 0 14px; }
+      article li { font-size: 16px; line-height: 1.65; margin-bottom: 8px; }
+      article strong { font-weight: 700; }
+      article em { font-style: italic; }
+      article a { color: #0A72B5; }
+      .cta { margin-top: 34px; padding: 18px 20px; background: #EFEEE8; border: 1px solid #E0DDD4; border-radius: 4px; }
+      .cta p { margin: 0; }
+      .cta a { font-weight: 700; }
+      .foot { margin-top: 34px; padding-top: 14px; border-top: 1px solid #DDD9CF; font-size: 12.5px; color: #666; }
+      .foot a { color: #000; }
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        article h1 { font-size: 26px; }
+        article h2 { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <article>
+        <h1>Why Metallic and Neon Pantones Can't Be Converted to CMYK</h1>
+        <p class="lede">A client sends you a logo spec'd in PMS 877 silver, or a hot neon pink in PMS 806. They don't want to pay for a spot plate. They ask you to just build it in CMYK. You run the number through a converter, you print it, and you hand them a flat gray and a dull pink. Then you have the uncomfortable conversation. Here's why that conversation keeps happening, and what to actually say the next time.</p>
+
+        <h2>CMYK is a gamut, and some colors live outside it</h2>
+        <p>Here's the honest truth: CMYK, as a four-color process, can only reproduce the colors that live inside its gamut. The gamut is the set of colors you can physically mix with cyan, magenta, yellow, and black inks on paper. It's a specific volume in color space, and it's smaller than a lot of people assume.</p>
+        <p>Metallic Pantones and neon (fluorescent) Pantones aren't just hard to reach inside that gamut. <strong>They're not in it at all.</strong> No combination of C, M, Y, and K can produce them, because the thing that makes them what they are isn't a color mix. It's a physical property of the ink.</p>
+
+        <h2>Why metallics are their own animal</h2>
+        <p>A metallic Pantone, PMS 877 silver, PMS 871 gold, PMS 8201 copper, isn't a hue sitting in color space. It's an ink made with <strong>actual metal particles</strong> suspended in the vehicle. Aluminum flakes for silver. Bronze or copper for gold. When light hits the printed surface, it bounces off those flakes at different angles depending on where you're standing. That's the sparkle, the shine, the shift when the sheet moves.</p>
+        <p>CMYK inks are pigments. They absorb some light and reflect the rest in a diffuse pattern. There's no reflectivity, no angular shift, no metallic character. Try to build silver in CMYK and the best you can do is a flat, dead gray that reads <em>as</em> gray and does none of the things silver does.</p>
+        <p>No lookup table and no clever formula will save you here. The property you're trying to reproduce isn't a color. It's a <strong>surface</strong>.</p>
+
+        <h2>Why neons are a different kind of impossible</h2>
+        <p>Neon Pantones, the fluorescent pinks, oranges, greens, yellows, work on a different trick. The pigments inside them <strong>absorb ultraviolet and short-wavelength light and re-emit it as visible light</strong>. That's fluorescence. The chip looks almost like it's lit from behind. It isn't. It's emitting a chunk of visible light the paper around it isn't.</p>
+        <p>CMYK pigments don't fluoresce. They reflect. Which means a CMYK build can give you a saturated pink in regular light, but it will never give you the lit-from-inside quality a neon ink has, because the mechanism is different. You can get close in hue. You cannot get close in brightness.</p>
+        <p>Measure a neon chip with a spectrophotometer and the numbers often come back wrong on standard instruments, because the instrument isn't designed to read fluorescence correctly. The chip is physically brighter than the measurement geometry can register. That alone tells you where you are: outside the system.</p>
+
+        <h2>What the free converter does with these</h2>
+        <p>Punch PMS 877 silver into a free online Pantone-to-CMYK converter and it will cheerfully hand you a CMYK build. It usually comes back as something like 20C 15M 15Y 40K. Print that and you get a flat dark gray. It is not silver. It never will be silver. The converter had no way to tell you that, because it just picked the nearest in-gamut color and shrugged.</p>
+        <p>Same with neon. Punch in PMS 806 and you'll get back a CMYK build heavy on magenta. Print it and you get a saturated pink. A nice pink, maybe. But standing next to the actual Pantone 806 chip, it looks like somebody turned the lights off on it.</p>
+
+        <h2>What to do when the client won't pay for spot</h2>
+        <p>You have three honest options.</p>
+        <ul>
+          <li><strong>Run it as a fifth color (spot).</strong> This is the correct answer. It costs more because it's an extra plate and an extra ink, but it's the only way to get silver that looks like silver or neon that looks like neon. For a brand that uses metallic or fluorescent as part of its identity, this is non-negotiable.</li>
+          <li><strong>Specify an alternate.</strong> Most Pantone metallics and neons have a <strong>designated non-metallic or non-fluorescent equivalent</strong> listed by Pantone for process printing. It's not the same color. But it's the closest thing CMYK can give you, and Pantone has done the picking for you. Have the client approve the alternate up front. Don't let them see the swap-in color for the first time on the finished job.</li>
+          <li><strong>Add a specialty ink in-line.</strong> On the right press, you can run metallic or fluorescent as a dedicated channel. On wide-format, there are white, metallic, and sometimes neon inks you can configure. This is somewhere between the first two options in cost and complexity.</li>
+        </ul>
+
+        <h2>How to have the conversation</h2>
+        <p>The one thing not to do is take the job, build it in CMYK, print it, and let the client find out at the proof stage that silver isn't going to look like silver. That's the recipe for a reprint and a bad relationship.</p>
+        <p>The conversation sounds like this: "Your logo uses a metallic/fluorescent Pantone, which is outside the CMYK process gamut. We can run it as a fifth color for an upcharge, we can substitute Pantone's designated process equivalent (here's what that looks like), or we can run it on a press that handles specialty inks. Which direction do you want to go?" Direct, factual, and three options on the table.</p>
+
+        <h2>The short version</h2>
+        <p>Metallic Pantones use real metal flakes for their shimmer. Neon Pantones fluoresce under UV. CMYK can do neither. Any free converter that spits out a CMYK build for one of these colors is handing you the nearest flat process color and calling it a day. The honest fix is to run spot, swap to Pantone's designated process equivalent with the client's approval, or move to a press that handles specialty inks. Build the right conversation into prepress, not the proof.</p>
+
+        <div class="cta">
+          <p><strong>Know when you're inside the gamut, and when you're not.</strong> <a href="/">Drawdown</a> works on the colors you can actually reach on your press, with your inks, on your material. For the ones outside the gamut, no tool can save you. For everything in it, Drawdown tells you which inks to move to close the gap. Free in your browser. <a href="/">Try it →</a></p>
+        </div>
+      </article>
+
+      <footer class="foot">
+        Drawdown. Press-side color correction. <a href="/">drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>

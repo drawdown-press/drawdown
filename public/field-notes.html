@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <title>Field Notes: Working-Pressman Writing on Color, CMYK, and Pantone | Drawdown</title>
+    <meta name="description" content="Working-pressman notes on color correction, CMYK, Pantone, substrate behavior, and the honest reality of prepress. Written at the machine, not from a textbook." />
+    <meta name="keywords" content="prepress blog, press color matching, cmyk tips, pantone to cmyk, pressman notes, color correction articles, print color guide" />
+    <meta name="author" content="Drawdown" />
+    <link rel="canonical" href="https://drawdown.press/field-notes.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Drawdown" />
+    <meta property="og:title" content="Field Notes: Working-Pressman Writing from Drawdown" />
+    <meta property="og:description" content="Honest, pressman-written notes on color, CMYK, Pantone, substrate, and the real work of matching a target on press." />
+    <meta property="og:url" content="https://drawdown.press/field-notes.html" />
+    <meta property="og:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Field Notes: Working-Pressman Writing from Drawdown" />
+    <meta name="twitter:description" content="Honest, pressman-written notes on color, CMYK, Pantone, and the real work of matching a target on press." />
+    <meta name="twitter:image" content="https://drawdown.press/drawdown-og.png" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@500&display=swap');
+      body { margin: 0; background: #F6F5F1; color: #000; font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+      .wrap { max-width: 780px; margin: 0 auto; padding: 28px 16px 64px; }
+      .mast { display: flex; align-items: center; gap: 10px; padding-bottom: 22px; border-bottom: 1px solid #DDD9CF; }
+      .mast svg { display: block; flex: none; }
+      .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+      .mast a { margin-left: auto; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; color: #555; text-decoration: underline; text-underline-offset: 3px; }
+
+      .head { margin: 36px 0 32px; }
+      .head .eyebrow {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #0A72B5;
+        margin-bottom: 10px;
+      }
+      .head h1 {
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0 0 14px;
+      }
+      .head p {
+        font-size: 17px;
+        line-height: 1.55;
+        color: #333;
+        margin: 0;
+        max-width: 620px;
+      }
+
+      .section-label {
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #777;
+        margin: 36px 0 14px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #DDD9CF;
+      }
+
+      .notes { list-style: none; padding: 0; margin: 0; }
+      .note {
+        padding: 20px 0;
+        border-bottom: 1px solid #E7E4DB;
+      }
+      .note:last-child { border-bottom: none; }
+      .note a.title {
+        display: block;
+        font-weight: 800;
+        font-size: 21px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        color: #000;
+        text-decoration: none;
+        margin-bottom: 6px;
+      }
+      .note a.title:hover { color: #0A72B5; }
+      .note .summary {
+        font-size: 15.5px;
+        line-height: 1.55;
+        color: #444;
+        margin: 0 0 6px;
+      }
+      .note .meta {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11.5px;
+        color: #888;
+        letter-spacing: 0.03em;
+      }
+      .note .meta .tag {
+        color: #0A72B5;
+      }
+
+      .cta {
+        margin-top: 44px;
+        padding: 20px 22px;
+        background: #EFEEE8;
+        border: 1px solid #E0DDD4;
+        border-radius: 4px;
+      }
+      .cta p { margin: 0; font-size: 15.5px; line-height: 1.55; }
+      .cta a { color: #0A72B5; font-weight: 700; }
+
+      .foot {
+        margin-top: 44px;
+        padding-top: 14px;
+        border-top: 1px solid #DDD9CF;
+        font-size: 12.5px;
+        color: #666;
+      }
+      .foot a { color: #000; }
+
+      @media (max-width: 540px) {
+        .wrap { padding: 18px 12px 48px; }
+        .head h1 { font-size: 30px; }
+        .note a.title { font-size: 18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <svg viewBox="146 90 220 380" height="34" width="19.7" aria-hidden="true">
+          <path fill="#009DDC" d="M156 118 Q156 100 174 100 L256 100 L256 396 Q204 414 156 392 Z" />
+          <path fill="#0A72B5" d="M256 100 L338 100 Q356 100 356 118 L356 402 Q344 462 312 448 Q288 438 256 404 Z" />
+        </svg>
+        <div class="mark">Drawdown</div>
+        <a href="/">Back to the tool →</a>
+      </header>
+
+      <div class="head">
+        <div class="eyebrow">Field Notes</div>
+        <h1>Writing from the press side.</h1>
+        <p>Working-pressman notes on color, CMYK, Pantone, substrate behavior, and the honest reality of prepress. Written at the machine, not from a textbook.</p>
+      </div>
+
+      <div class="section-label">Pantone and CMYK</div>
+      <ul class="notes">
+
+        <li class="note">
+          <a class="title" href="/why-free-pantone-converters-are-wrong.html">Pantone to CMYK: Why Free Converters Give the Wrong Numbers</a>
+          <p class="summary">The free Pantone-to-CMYK converters floating around online are randomly scientific. They print too faint, miss on anything saturated, and force you to start the match over from scratch. Here's why, and what actually works.</p>
+          <div class="meta"><span class="tag">pantone to cmyk</span> &nbsp;·&nbsp; converters, substrate, dot gain</div>
+        </li>
+
+        <li class="note">
+          <a class="title" href="/pantone-coated-vs-uncoated.html">Pantone Coated vs Uncoated: What the C and U Actually Do to Your Print</a>
+          <p class="summary">The letter after a Pantone number isn't a filing suffix. It's the paper the chip was printed on. Same formula, different stock, different color. Here's how to pick the right letter, and when to pull a drawdown on your in-between stock.</p>
+          <div class="meta"><span class="tag">pantone coated vs uncoated</span> &nbsp;·&nbsp; substrate, C and U, stock matching</div>
+        </li>
+
+        <li class="note">
+          <a class="title" href="/pantone-color-bridge.html">What Is the Pantone Color Bridge, and When Is It Lying to You?</a>
+          <p class="summary">Pantone Color Bridge is calibrated to one spec: GRACoL offset on premium coated #1 paper. Run anything else and the CMYK recommendation drifts. Here's how to use the book honestly instead of as a universal lookup.</p>
+          <div class="meta"><span class="tag">pantone color bridge</span> &nbsp;·&nbsp; GRACoL, bridge accuracy, assumptions</div>
+        </li>
+
+        <li class="note">
+          <a class="title" href="/metallic-neon-pantone-cmyk.html">Why Metallic and Neon Pantones Can't Be Converted to CMYK</a>
+          <p class="summary">Metallic Pantones use real metal flakes. Neon Pantones fluoresce under UV. CMYK does neither. Any converter that spits out a build for one of these colors is handing you the nearest flat color and calling it a day. Here are three honest options.</p>
+          <div class="meta"><span class="tag">metallic pantone cmyk</span> &nbsp;·&nbsp; fluorescent, out of gamut, spot color</div>
+        </li>
+
+      </ul>
+
+      <div class="section-label">On press</div>
+      <ul class="notes">
+
+        <li class="note">
+          <a class="title" href="/print-doesnt-match-proof.html">Your Print Doesn't Match the Proof. Here's How to Actually Fix It.</a>
+          <p class="summary">Before you touch the inks, check the proof and the material. Most mismatches live in the substrate white, not the build. And then there's cyan bloom, the sneaky one that wastes hours. Here's the pressman's dial-in sequence.</p>
+          <div class="meta"><span class="tag">print proof mismatch</span> &nbsp;·&nbsp; substrate white, cyan bloom, span</div>
+        </li>
+
+        <li class="note">
+          <a class="title" href="/gray-balance-in-cmyk.html">Gray Balance in CMYK: What It Is and Why Your Neutrals Drift</a>
+          <p class="summary">Gray is the hardest color to hold. The neutral in a photograph, the gutter of a page, the background of a logo. It's the color most likely to drift on you, and when it does, everyone notices. Here's why that happens.</p>
+          <div class="meta"><span class="tag">gray balance cmyk</span> &nbsp;·&nbsp; neutrals, drift, GCR</div>
+        </li>
+
+        <li class="note">
+          <a class="title" href="/from-measurement-to-correction.html">From Measurement to Correction: Using i1 Spot Color Compare with Drawdown</a>
+          <p class="summary">X-Rite's Spot Color Compare tells you how far off your print is from the target. What it doesn't tell you is what to do about it. Here's how to use it properly, and how to close the gap with Drawdown.</p>
+          <div class="meta"><span class="tag">i1 spot color compare</span> &nbsp;·&nbsp; measurement, delta E, correction</div>
+        </li>
+
+      </ul>
+
+      <div class="cta">
+        <p><strong>Drawdown is the tool these notes are about.</strong> Enter the color you want and the color you're getting, and it tells you which inks to move to close the gap. The material white is part of the math. Free in your browser. <a href="/">Try it →</a></p>
+      </div>
+
+      <footer class="foot">
+        Drawdown. Press-side color correction. <a href="/">drawdown.press</a>
+      </footer>
+    </div>
+  </body>
+</html>

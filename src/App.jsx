@@ -276,7 +276,22 @@ function About() {
             <a href="/from-measurement-to-correction.html">From measurement to correction: using i1 Spot Color Compare with Drawdown →</a>
             <span className="fnteaser"> How to measure the drift — and what to do with the ΔE number once you have it.</span>
           </li>
+          <li>
+            <a href="/pantone-coated-vs-uncoated.html">Pantone Coated vs Uncoated: what the C and U actually do to your print →</a>
+            <span className="fnteaser"> The letter isn't a filing suffix. It's the paper the chip was printed on, and it changes the color.</span>
+          </li>
+          <li>
+            <a href="/pantone-color-bridge.html">What is the Pantone Color Bridge, and when is it lying to you? →</a>
+            <span className="fnteaser"> It's calibrated to one spec: GRACoL on premium coated #1. Run anything else and the number drifts.</span>
+          </li>
+          <li>
+            <a href="/metallic-neon-pantone-cmyk.html">Why metallic and neon Pantones can't be converted to CMYK →</a>
+            <span className="fnteaser"> Metallics use metal flakes. Neons fluoresce. CMYK does neither. Three honest options for what to do.</span>
+          </li>
         </ul>
+        <div className="fnmore">
+          <a href="/field-notes.html">See all field notes →</a>
+        </div>
       </div>
 
       <div className="capturebox">
@@ -594,6 +609,8 @@ export default function Drawdown() {
         .fnlist li:last-child { margin-bottom: 0; }
         .fnlist a { font-weight: 700; color: #0A72B5; text-decoration: underline; text-underline-offset: 2px; }
         .fnteaser { color: #555; }
+        .fnmore { margin-top: 12px; padding-top: 10px; border-top: 1px solid #DDD9CF; font-size: 13px; }
+        .fnmore a { color: #0A72B5; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
         .capturebox { margin: 6px 0 22px; background: #EFF4F8; border: 1px solid #CCDBE6; border-radius: 4px; padding: 16px 18px; }
         .capthead { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.01em; color: #000; }
         .capsub { font-size: 13px; line-height: 1.55; color: #333; margin: 6px 0 12px; }
