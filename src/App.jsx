@@ -389,10 +389,10 @@ function About() {
         whole crew under one subscription and stamps your shop's name on every job ticket.
       </p>
       <p className="aboutp">
-        Pro is <strong>$8.99/month</strong> or <strong>$79/year</strong> — the annual plan works out
-        to under $7 a month, about the cost of one avoided make-ready. The printed Gray Balance Card
-        is sold separately, on its own or as a 3-pack, whether or not you subscribe. Questions,
-        gripes, early access: <a href={`mailto:${CONTACT}`}>{CONTACT}</a>.
+        Pro is coming. If you want in on early access, or just want to know when it lands, drop a
+        note. The printed Gray Balance Card is sold separately, on its own or as a 3-pack, whether
+        or not you subscribe. Questions, gripes, early access:{" "}
+        <a href={`mailto:${CONTACT}`}>{CONTACT}</a>.
       </p>
     </div>
   );
